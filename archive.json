@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-12T00:57:19.530506+00:00",
+  "timestamp": "2023-12-14T00:56:09.652856+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -840,6 +840,22 @@
           "updatedAt": "2023-12-07T14:46:42Z"
         }
       ]
+    },
+    {
+      "number": 56,
+      "id": "I_kwDOJt_WwM55gcQk",
+      "title": "RFC 9493 and sub_id formats",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/56",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
+      "createdAt": "2023-12-12T21:04:09Z",
+      "updatedAt": "2023-12-12T21:04:09Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2100,6 +2116,83 @@
           "createdAt": "2023-12-08T14:24:15Z",
           "updatedAt": "2023-12-08T14:24:15Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "id": "PR_kwDOJt_WwM5h1it9",
+      "title": "Token exchange profile update",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/57",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
+      "createdAt": "2023-12-12T21:23:08Z",
+      "updatedAt": "2023-12-14T00:53:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "token-exchange",
+      "headRefOid": "fa68598c94842c84b061adcf66616c99fe52e8f6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5qHDWD",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-13T18:17:49Z",
+          "updatedAt": "2023-12-14T00:53:10Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "\"may be requested -> \"MAY be requested\"",
+              "createdAt": "2023-12-13T18:17:49Z",
+              "updatedAt": "2023-12-14T00:53:10Z"
+            },
+            {
+              "originalPosition": 41,
+              "body": "The new wording makes the use of Token Exchange look optional. Is that intended? If so, we should perhaps clarify that (I have no opinion on the optionality, but I would like this draft to describe the Token Exchange profile as it is doing now)",
+              "createdAt": "2023-12-13T18:19:26Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 50,
+              "body": "`scope` is optional in a token exchange request. I'm supportive of making it required, but I'm trying to remember whether we have discussed this.",
+              "createdAt": "2023-12-14T00:45:38Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 63,
+              "body": "I'm not sure about this. I feel that the `azd` claim in the TraT should be minted by the TraT server, so the requesting service should only provide the context based on which the TraT can be minted. I feel the requesting service should not be able to dictate what goes into the TraT as the azd.",
+              "createdAt": "2023-12-14T00:48:30Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 88,
+              "body": "Not sure what you mean by \"the specified Txn-Token\" here. Perhaps we can say \"...determine if that workload is authorized to request Txn-Tokens with the requested values\"?",
+              "createdAt": "2023-12-14T00:51:21Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 100,
+              "body": "I'd like to discuss this part. I feel the requesting service should not oblige the TraT service to have specific content in the TraT.",
+              "createdAt": "2023-12-14T00:52:50Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            }
+          ]
         }
       ]
     }
