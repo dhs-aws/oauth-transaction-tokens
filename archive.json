@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-14T00:56:09.652856+00:00",
+  "timestamp": "2023-12-17T01:00:37.574073+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2131,7 +2131,7 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2023-12-14T00:53:10Z",
+      "updatedAt": "2023-12-15T21:51:00Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
@@ -2191,6 +2191,56 @@
               "body": "I'd like to discuss this part. I feel the requesting service should not oblige the TraT service to have specific content in the TraT.",
               "createdAt": "2023-12-14T00:52:50Z",
               "updatedAt": "2023-12-14T00:53:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qZCoJ",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-15T21:24:28Z",
+          "updatedAt": "2023-12-15T21:51:00Z",
+          "comments": [
+            {
+              "originalPosition": 108,
+              "body": "check the way `token_type` is defined, which is kinda awakrd in this context. See https://datatracker.ietf.org/doc/html/rfc8693#section-2.2.1-2.4 and https://www.rfc-editor.org/rfc/rfc6749#section-7.1 \r\n\r\njust using `N_A` here might be appropriate ",
+              "createdAt": "2023-12-15T21:24:28Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 111,
+              "body": "missing `issued_token_type` in this list ",
+              "createdAt": "2023-12-15T21:24:57Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 110,
+              "body": "I would not say \"in base64url encoded from\" here as might suggest the Txn-Token is supposed to be re-encoded or otherwise confuse folks. The Txn-Token is a JWT. Nothing more needs to be said here. ",
+              "createdAt": "2023-12-15T21:35:01Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 108,
+              "body": "also the example below is missing token_type ",
+              "createdAt": "2023-12-15T21:35:42Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 52,
+              "body": "GW probably needs to be spelled out ",
+              "createdAt": "2023-12-15T21:41:10Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 66,
+              "body": "\"OAuth 2.0 Bearer tokens using a client credentials token\" -> token exchange is defined at the token endpoint, which can directly accept oauth client authentication. Also \"client credentials token\" isn't a defined thing (I think I know what you mean but I'm guessing).  ",
+              "createdAt": "2023-12-15T21:50:01Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
             }
           ]
         }
