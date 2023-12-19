@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-17T01:00:37.574073+00:00",
+  "timestamp": "2023-12-19T00:56:34.261174+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -856,6 +856,115 @@
       "updatedAt": "2023-12-12T21:04:09Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 58,
+      "id": "I_kwDOJt_WwM56AT6_",
+      "title": "Authorization details presentation and processing",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/58",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "PR #57 raised a number of issues around processing of authorization details\r\n\r\n1. How are these details determined by the Transaction Token Service (i.e. where do they come from)?\r\n2. Should all the `azd` claims be visible to all workloads? or should they be restricted to a subset of workloads?\r\n3. Who is authoritative for specifying the claims of the `azd` object\r\n",
+      "createdAt": "2023-12-18T15:20:21Z",
+      "updatedAt": "2023-12-18T18:31:59Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Some thoughts:\r\n\r\n1.  I think the spec should be un-opinionated about how the TraT service generates the value of `azd` claim. I can see in some instances that the requester has more control over what goes into the claim, and in some cases, the TraT service has more control.\r\n2. A TraT service could implement selective disclosure, although we could recommend in the spec that one should implement it by encrypting certain fields. Stating this makes the actual mechanism for selective disclosure outside the scope of the spec.\r\n3. I believe the TraT service MUST be authoritative for the claims of the `azd` object, because it is signing the TraT.",
+          "createdAt": "2023-12-18T17:42:51Z",
+          "updatedAt": "2023-12-18T17:42:51Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding (1) -- I think we still need a way for the client to pass in data to the TTS that it can use to generate the values. Even if how all that works is out of scope for the specificatio.\r\n\r\nRegarding (2) and (3) -- I'm ok with leaving the rules out of scope for the specification. The TTS will be authoritative for the resulting `azd` object and whether it should be protected in some way or not.\r\n\r\nI am curious to hear from others as to their thoughts.",
+          "createdAt": "2023-12-18T18:31:58Z",
+          "updatedAt": "2023-12-18T18:31:58Z"
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "id": "I_kwDOJt_WwM56AUh2",
+      "title": "Use of base64url encoding for request_context and authz_details",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/59",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Should we call out a specific encoding for these JSON objects? ",
+      "createdAt": "2023-12-18T15:21:31Z",
+      "updatedAt": "2023-12-18T15:21:31Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 60,
+      "id": "I_kwDOJt_WwM56AVNO",
+      "title": "Use of `actor_token` and `actor_token_type`",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/60",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Should we allow the use of `actor_token` and `actor_token_type` to be used as a means of client authentication for the Transaction Token Service? If not, should explicitly prohibit the use of these parameters in the profile of the Token Exchange spec.",
+      "createdAt": "2023-12-18T15:22:56Z",
+      "updatedAt": "2023-12-18T18:18:38Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since RFC8693 (Token Exchange) refers to the `actor_token` as \"A security token that represents the identity of the acting party\", we should not use it in the TraT request. I thought we wanted to have some way to convey the inbound token to the TraT service, and that's why we were using `actor_token`, but that is inconsistent with RFC8693. I think we should neither require nor disallow the use of `actor_token` because some implementations may want that for client auth, and some implementations may want to do something else (e.g. mTLS) for client auth.",
+          "createdAt": "2023-12-18T17:53:07Z",
+          "updatedAt": "2023-12-18T17:53:07Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is kind of what the spec says today. It's not required and up to the implementation. It is just referenced as an example. However, I'm fine removing the example and just being silent in the spec on the topic.",
+          "createdAt": "2023-12-18T18:18:37Z",
+          "updatedAt": "2023-12-18T18:18:37Z"
+        }
+      ]
+    },
+    {
+      "number": 61,
+      "id": "I_kwDOJt_WwM56AWSf",
+      "title": "How is the `purp` claim of the Txn-Token defined?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/61",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In PR #57, the token exchange `scope` parameter is profiled to carry the purpose or intent of the transaction and its value is copied into the `purp` claim of the resulting Txn-Token. \r\n\r\nIs this how we want to handle the 'purp' claim?",
+      "createdAt": "2023-12-18T15:25:19Z",
+      "updatedAt": "2023-12-18T18:28:58Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I propose that the draft should allow value of the `scope` claim in the TraT request be independent of the `purp` claim in the TraT, because the requesting service may not know sufficient details about how the TraT is actually going to be used. For example, the requester may say the `scope` is \"buy stock\", whereas the `purp` claim could have a value like \"equity trade\"",
+          "createdAt": "2023-12-18T17:47:43Z",
+          "updatedAt": "2023-12-18T17:47:43Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok, so allow the TTS to transform the input scope to the appropriate value (if necessary). I'm ok with that.",
+          "createdAt": "2023-12-18T18:28:57Z",
+          "updatedAt": "2023-12-18T18:28:57Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2131,13 +2240,13 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2023-12-15T21:51:00Z",
+      "updatedAt": "2023-12-18T17:37:31Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "token-exchange",
-      "headRefOid": "fa68598c94842c84b061adcf66616c99fe52e8f6",
+      "headRefOid": "e050c981f856705a985f548955cdba808fbdb693",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -2241,6 +2350,346 @@
               "body": "\"OAuth 2.0 Bearer tokens using a client credentials token\" -> token exchange is defined at the token endpoint, which can directly accept oauth client authentication. Also \"client credentials token\" isn't a defined thing (I think I know what you mean but I'm guessing).  ",
               "createdAt": "2023-12-15T21:50:01Z",
               "updatedAt": "2023-12-15T21:51:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafRZ",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:20:47Z",
+          "updatedAt": "2023-12-17T02:20:47Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "I wasn't intending that MAY to normative. Does it make sense to be normative?",
+              "createdAt": "2023-12-17T02:20:47Z",
+              "updatedAt": "2023-12-18T15:34:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafTm",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:23:25Z",
+          "updatedAt": "2023-12-17T02:23:26Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "I wasn't intending the text to imply that token exchange is optional, but rather that the Transaction Token spec is profiling the token exchange spec and that profile MUST be followed for the purpose of requesting Txn-Tokens. For me a profile doesn't mean the initial spec is optional but rather that the use of the transaction token spec is modified in some way.",
+              "createdAt": "2023-12-17T02:23:26Z",
+              "updatedAt": "2023-12-17T02:23:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafU1",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:25:01Z",
+          "updatedAt": "2023-12-17T02:25:01Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "I added it as required, because we have the 'purpose' claim of the Txn-Token and the requesting workload needs to specify what that purpose is. I discussed with Brian via email and we thought using the existing 'scope' parameter was a better option than defining a new parameter. I'm open to other perspectives.",
+              "createdAt": "2023-12-17T02:25:01Z",
+              "updatedAt": "2023-12-17T02:25:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafWS",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:26:54Z",
+          "updatedAt": "2023-12-17T02:26:54Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "So if all that `azd` data is in the access_token that's fine but what about the case where the requesting workload doesn't have an access token and is requesting a TraT to be minted. In that case, how does the workload ask for the additional transaction data to be added to the Trat in the `azd` claim?",
+              "createdAt": "2023-12-17T02:26:54Z",
+              "updatedAt": "2023-12-17T02:26:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafXq",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:28:21Z",
+          "updatedAt": "2023-12-17T02:28:21Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "That's clearer. I'll update with that wording.",
+              "createdAt": "2023-12-17T02:28:21Z",
+              "updatedAt": "2023-12-17T02:28:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafZU",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:30:53Z",
+          "updatedAt": "2023-12-17T02:30:53Z",
+          "comments": [
+            {
+              "originalPosition": 100,
+              "body": "I think I was wondering about that when I wrote it so happy to have a discussion about this. I'm thinking mostly about the case where an internal workload (e.g. like a scheduled job) needs a TraT and has additional details about the transaction that it wants to make immutable. We can say that it is up to the Transaction Token Service (TTS) to determine what data is included in the TraT. How the TTS makes that determination is out of scope for the specification.",
+              "createdAt": "2023-12-17T02:30:53Z",
+              "updatedAt": "2023-12-17T02:30:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafb1",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:33:59Z",
+          "updatedAt": "2023-12-17T02:34:00Z",
+          "comments": [
+            {
+              "originalPosition": 108,
+              "body": "Yes, I agree that N_A is probably better. I'll update accordingly.",
+              "createdAt": "2023-12-17T02:33:59Z",
+              "updatedAt": "2023-12-17T02:34:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafca",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:34:36Z",
+          "updatedAt": "2023-12-17T02:34:36Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "Thanks!",
+              "createdAt": "2023-12-17T02:34:36Z",
+              "updatedAt": "2023-12-17T02:34:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafdO",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:35:31Z",
+          "updatedAt": "2023-12-17T02:35:31Z",
+          "comments": [
+            {
+              "originalPosition": 110,
+              "body": "Ok. I wasn't sure how JWT are specified as values of a JSON claim. If multiple encodings are supported that's fine.",
+              "createdAt": "2023-12-17T02:35:31Z",
+              "updatedAt": "2023-12-17T02:35:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafep",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:37:19Z",
+          "updatedAt": "2023-12-17T02:37:19Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Ok, let me re-work this paragraph and just point to the client authentication mechanisms supported by the /token endpoint as defined in existing RFCs.",
+              "createdAt": "2023-12-17T02:37:19Z",
+              "updatedAt": "2023-12-17T02:37:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qbx4X",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T02:00:28Z",
+          "updatedAt": "2023-12-18T02:00:28Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "Since the transaction token is passed to multiple workloads in a transaction, is it ok to expose `azd` to all the workloads? Is there any guidance on which type of data can be added to `azd`.\r\nWe are working on adding common fields to `azd` and also encrypt them. Access to the decryption secret is limited to specific workloads that need the data.\r\n\r\n",
+              "createdAt": "2023-12-18T02:00:28Z",
+              "updatedAt": "2023-12-18T02:00:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhDhi",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T14:48:10Z",
+          "updatedAt": "2023-12-18T14:48:11Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "That is a really interesting question and I wonder if selective disclosure JWTs could be a way to address that. I suppose if different workloads need access to different aspects of the `azd` data that could be more complicated.\r\n\r\nOne question, we may want to consider for this specification is whether that level of detail should be left up the specific deployment and become out of scope for this specification. Regardless, it's an interesting question. Would you mind filing an issue on it? I think it needs it's own discussion.",
+              "createdAt": "2023-12-18T14:48:11Z",
+              "updatedAt": "2023-12-18T14:48:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhhiG",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:32:40Z",
+          "updatedAt": "2023-12-18T15:32:41Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "I updated the previous paragraph (#Txn-Token Service) to be much stronger. Do we feel we need both? I can update here as well.",
+              "createdAt": "2023-12-18T15:32:41Z",
+              "updatedAt": "2023-12-18T15:32:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhhua",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:33:04Z",
+          "updatedAt": "2023-12-18T15:33:05Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "I filed an issue regarding this topic",
+              "createdAt": "2023-12-18T15:33:05Z",
+              "updatedAt": "2023-12-18T15:33:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhh7R",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:33:30Z",
+          "updatedAt": "2023-12-18T15:33:30Z",
+          "comments": [
+            {
+              "originalPosition": 100,
+              "body": "I filed an issue on this topic",
+              "createdAt": "2023-12-18T15:33:30Z",
+              "updatedAt": "2023-12-18T15:33:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhiXi",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:34:25Z",
+          "updatedAt": "2023-12-18T15:34:25Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "I filed an issue on this topic",
+              "createdAt": "2023-12-18T15:34:25Z",
+              "updatedAt": "2023-12-18T15:34:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qib6L",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T17:37:30Z",
+          "updatedAt": "2023-12-18T17:37:31Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "not sure - it could make sense either way.",
+              "createdAt": "2023-12-18T17:37:30Z",
+              "updatedAt": "2023-12-18T17:37:31Z"
             }
           ]
         }
