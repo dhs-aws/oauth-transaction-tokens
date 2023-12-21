@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-19T00:56:34.261174+00:00",
+  "timestamp": "2023-12-21T00:55:34.702246+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -853,9 +853,31 @@
       "labels": [],
       "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
       "createdAt": "2023-12-12T21:04:09Z",
-      "updatedAt": "2023-12-12T21:04:09Z",
+      "updatedAt": "2023-12-21T00:12:36Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "I would definitely not require that format. \r\n\r\nAnd would again suggest that RFC 9493 isn't needed in the Txn-Token context and [JWT's subject](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2) good enough. ",
+          "createdAt": "2023-12-20T21:41:16Z",
+          "updatedAt": "2023-12-20T21:41:16Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My concern with relying on the JWT's subject is that the Transaction Token is issued by the Transaction Token Service which is potentially different than the AS that say issued the access token from which the `sub` claim is determined. In that context, I think the Transaction Token should carry the issuer of the `sub` claim which means the default `sub` and `iss` claims of the JWT are not sufficient.\r\n\r\nOr if the entity requesting the Transaction token is the service that receives inbound mail, and that service wants a transaction token with a purpose of `mail.inbox.delivery`, is the Transaction Token Service the correct issuer of the `sub` which is an email address?",
+          "createdAt": "2023-12-20T22:16:47Z",
+          "updatedAt": "2023-12-20T22:16:47Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "I feel like there might be an undue emphasis on a relationship between `iss` and `sub` that doesn't truly exist. RFC7519 only mentions uniqueness in the context of an issuer https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2 but not ownership or correctness or semantic meaning. \r\n",
+          "createdAt": "2023-12-21T00:12:05Z",
+          "updatedAt": "2023-12-21T00:12:36Z"
+        }
+      ]
     },
     {
       "number": 58,
@@ -2240,7 +2262,7 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2023-12-18T17:37:31Z",
+      "updatedAt": "2023-12-19T01:20:55Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
@@ -2690,6 +2712,26 @@
               "body": "not sure - it could make sense either way.",
               "createdAt": "2023-12-18T17:37:30Z",
               "updatedAt": "2023-12-18T17:37:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qkeHY",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-19T01:20:55Z",
+          "updatedAt": "2023-12-19T01:20:55Z",
+          "comments": [
+            {
+              "originalPosition": 110,
+              "body": "Wait, what? This isn't a claim and there's only one encoding of a JWT.  This confused me :/ But \"Txn-Token JWT\" is in the latest commit works for me. Maybe someday we can discuss and hash out some of the confusion here. But latest text is good. ",
+              "createdAt": "2023-12-19T01:20:55Z",
+              "updatedAt": "2023-12-19T01:20:55Z"
             }
           ]
         }
