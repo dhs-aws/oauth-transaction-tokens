@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-21T00:55:34.702246+00:00",
+  "timestamp": "2023-12-24T00:59:16.263297+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -853,7 +853,7 @@
       "labels": [],
       "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
       "createdAt": "2023-12-12T21:04:09Z",
-      "updatedAt": "2023-12-21T00:12:36Z",
+      "updatedAt": "2023-12-21T15:41:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -876,6 +876,27 @@
           "body": "I feel like there might be an undue emphasis on a relationship between `iss` and `sub` that doesn't truly exist. RFC7519 only mentions uniqueness in the context of an issuer https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2 but not ownership or correctness or semantic meaning. \r\n",
           "createdAt": "2023-12-21T00:12:05Z",
           "updatedAt": "2023-12-21T00:12:36Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In the context of OpenID and id_tokens there is a clear relationship between the `iss` and the `sub` such that the globally unique identification is the combination of `iss` and `sub`. I've always viewed the relationship of those two claims in that light. Maybe that is an OpenID Connect centric view.",
+          "createdAt": "2023-12-21T00:57:54Z",
+          "updatedAt": "2023-12-21T00:57:54Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "Yeah, I am somewhat familiar with OpenID Connect ;) But this isn't OpenID Connect. With a Transaction Token the subject just needs to be identified within a single trust domain. ",
+          "createdAt": "2023-12-21T13:56:46Z",
+          "updatedAt": "2023-12-21T13:56:46Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So that assumes that the `sub` claim MUST be unique within the single trust domain as identified by the `aud` claim.  This might require the Transaction Token Service (TTS) to do some sort of identifier transformation as well as requiring both the AS and the TTS to both be authoritative for the `sub` claim value. This is easy if the AS is managing the transaction token request endpoint but if the TTS is it's own service and deployed in a distributed way, would that still be true?\r\n\r\nI can see the TTS being authoritative for the single trust domain but not necessarily for the `sub` identifier. However, I'm ok with moving in the direction you are suggesting Brian; I just want to make sure we aren't prohibiting some deployments by making that simplification.",
+          "createdAt": "2023-12-21T15:41:55Z",
+          "updatedAt": "2023-12-21T15:41:55Z"
         }
       ]
     },
@@ -2262,7 +2283,7 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2023-12-19T01:20:55Z",
+      "updatedAt": "2023-12-21T20:02:14Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
@@ -2734,6 +2755,32 @@
               "updatedAt": "2023-12-19T01:20:55Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5q5_pH",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "CASABECI",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-12-21T20:01:39Z",
+          "updatedAt": "2023-12-21T20:01:39Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5q6AbG",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "CASABECI",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "Wkn",
+          "createdAt": "2023-12-21T20:02:14Z",
+          "updatedAt": "2023-12-21T20:02:14Z",
+          "comments": []
         }
       ]
     }
