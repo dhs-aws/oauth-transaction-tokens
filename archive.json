@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-02T00:55:00.150804+00:00",
+  "timestamp": "2024-01-04T00:56:22.500814+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2283,7 +2283,7 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2023-12-21T20:02:14Z",
+      "updatedAt": "2024-01-03T18:12:05Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
@@ -2781,6 +2781,46 @@
           "createdAt": "2023-12-21T20:02:14Z",
           "updatedAt": "2023-12-21T20:02:14Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5rdUcw",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-03T18:10:02Z",
+          "updatedAt": "2024-01-03T18:10:02Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "Issue #58 ",
+              "createdAt": "2024-01-03T18:10:02Z",
+              "updatedAt": "2024-01-03T18:10:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5rdVEF",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-03T18:12:05Z",
+          "updatedAt": "2024-01-03T18:12:05Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "Issue #61 ",
+              "createdAt": "2024-01-03T18:12:05Z",
+              "updatedAt": "2024-01-03T18:12:05Z"
+            }
+          ]
         }
       ]
     }
