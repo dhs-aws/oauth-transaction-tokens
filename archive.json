@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-11T00:57:32.482904+00:00",
+  "timestamp": "2024-01-14T01:01:46.021980+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -57,6 +57,11 @@
       "name": "pre-adoption",
       "description": "",
       "color": "D449DC"
+    },
+    {
+      "name": "PR57",
+      "description": "",
+      "color": "5319e7"
     }
   ],
   "issues": [
@@ -908,11 +913,15 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "PR57"
+      ],
       "body": "PR #57 raised a number of issues around processing of authorization details\r\n\r\n1. How are these details determined by the Transaction Token Service (i.e. where do they come from)?\r\n2. Should all the `azd` claims be visible to all workloads? or should they be restricted to a subset of workloads?\r\n3. Who is authoritative for specifying the claims of the `azd` object\r\n",
       "createdAt": "2023-12-18T15:20:21Z",
-      "updatedAt": "2023-12-18T18:31:59Z",
+      "updatedAt": "2024-01-12T17:52:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -928,6 +937,13 @@
           "body": "Regarding (1) -- I think we still need a way for the client to pass in data to the TTS that it can use to generate the values. Even if how all that works is out of scope for the specificatio.\r\n\r\nRegarding (2) and (3) -- I'm ok with leaving the rules out of scope for the specification. The TTS will be authoritative for the resulting `azd` object and whether it should be protected in some way or not.\r\n\r\nI am curious to hear from others as to their thoughts.",
           "createdAt": "2023-12-18T18:31:58Z",
           "updatedAt": "2023-12-18T18:31:58Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Suggestion to rename `authz_details` to `request_details` and then add a processing rule to the effect of... \"The TTS SHOULD propagate the data from the `request_details` object into claims in the `azd` object as authorized by the TTS authorization policy for the requesting client\"",
+          "createdAt": "2024-01-12T17:26:50Z",
+          "updatedAt": "2024-01-12T17:26:50Z"
         }
       ]
     },
@@ -936,16 +952,26 @@
       "id": "I_kwDOJt_WwM56AUh2",
       "title": "Use of base64url encoding for request_context and authz_details",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/59",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "PR57"
+      ],
       "body": "Should we call out a specific encoding for these JSON objects? ",
       "createdAt": "2023-12-18T15:21:31Z",
-      "updatedAt": "2023-12-18T15:21:31Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-01-12T17:55:08Z",
+      "closedAt": "2024-01-12T17:55:07Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems fine, re-open if we discover issues with the current PR language",
+          "createdAt": "2024-01-12T17:55:07Z",
+          "updatedAt": "2024-01-12T17:55:07Z"
+        }
+      ]
     },
     {
       "number": 60,
@@ -955,11 +981,15 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "PR57"
+      ],
       "body": "Should we allow the use of `actor_token` and `actor_token_type` to be used as a means of client authentication for the Transaction Token Service? If not, should explicitly prohibit the use of these parameters in the profile of the Token Exchange spec.",
       "createdAt": "2023-12-18T15:22:56Z",
-      "updatedAt": "2023-12-18T18:18:38Z",
+      "updatedAt": "2024-01-12T17:53:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -975,6 +1005,13 @@
           "body": "This is kind of what the spec says today. It's not required and up to the implementation. It is just referenced as an example. However, I'm fine removing the example and just being silent in the spec on the topic.",
           "createdAt": "2023-12-18T18:18:37Z",
           "updatedAt": "2023-12-18T18:18:37Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Recommendation to update example and be silent on use of `actor_token` and `actor_token_type`. Add a section to Security Considerations to talk about client authentication and add some non-normative examples.",
+          "createdAt": "2024-01-12T17:48:13Z",
+          "updatedAt": "2024-01-12T17:48:13Z"
         }
       ]
     },
@@ -986,11 +1023,15 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "PR57"
+      ],
       "body": "In PR #57, the token exchange `scope` parameter is profiled to carry the purpose or intent of the transaction and its value is copied into the `purp` claim of the resulting Txn-Token. \r\n\r\nIs this how we want to handle the 'purp' claim?",
       "createdAt": "2023-12-18T15:25:19Z",
-      "updatedAt": "2023-12-18T18:28:58Z",
+      "updatedAt": "2024-01-12T17:52:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -1006,6 +1047,13 @@
           "body": "Ok, so allow the TTS to transform the input scope to the appropriate value (if necessary). I'm ok with that.",
           "createdAt": "2023-12-18T18:28:57Z",
           "updatedAt": "2023-12-18T18:28:57Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Recommended change that the TTS MUST take the value of the `scope` parameter to determine the `purp` claim of the TraT.",
+          "createdAt": "2024-01-12T17:32:59Z",
+          "updatedAt": "2024-01-12T17:32:59Z"
         }
       ]
     }
