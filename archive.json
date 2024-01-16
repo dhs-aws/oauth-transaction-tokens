@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-14T01:01:46.021980+00:00",
+  "timestamp": "2024-01-16T00:57:23.009463+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1056,6 +1056,38 @@
           "updatedAt": "2024-01-12T17:32:59Z"
         }
       ]
+    },
+    {
+      "number": 62,
+      "id": "I_kwDOJt_WwM58ELrW",
+      "title": "Long-living Access Token needed for internal batch processes/offline tasks?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/62",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
+      "createdAt": "2024-01-15T08:11:42Z",
+      "updatedAt": "2024-01-15T08:11:42Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 63,
+      "id": "I_kwDOJt_WwM58EStr",
+      "title": "audience REQUIRED for just one trust domain?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/63",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "This issue is somewhat related to the aud claim comment I made earlier via mail to the authors.\r\n\r\nThe spec states that audience parameter is REQUIRED in the Txn-Token request. It contains the trust domain. To my understanding, every trust domain as a single (logical) Txn-Service. A Txn-Service is usually configured to only issue Txn-Tokens to one and only one trust domain. Also the authenticating clients which the Txn-Service accepts in incoming requests are part of that trust domain. After all, they have been registered within that trust domain. It might be possible that the Txn-Service is used in multiple trust domains. In those scenarios I fully agree that the audience parameter is REQUIRED. My guess is, though, that the most deployed setup will incorporate a single trust domain.",
+      "createdAt": "2024-01-15T08:30:44Z",
+      "updatedAt": "2024-01-15T08:30:44Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2331,7 +2363,7 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2024-01-03T18:12:05Z",
+      "updatedAt": "2024-01-15T09:27:30Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
@@ -2867,6 +2899,66 @@
               "body": "Issue #61 ",
               "createdAt": "2024-01-03T18:12:05Z",
               "updatedAt": "2024-01-03T18:12:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5sjT2G",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T08:39:05Z",
+          "updatedAt": "2024-01-15T08:39:05Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "\"For example, many deployments may chose ... those others formats are perfectly valid as well.\"\r\n\r\nI believe that should be two sentences or separated?",
+              "createdAt": "2024-01-15T08:39:05Z",
+              "updatedAt": "2024-01-15T08:39:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5sjUuR",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T08:41:24Z",
+          "updatedAt": "2024-01-15T08:41:33Z",
+          "comments": [
+            {
+              "originalPosition": 98,
+              "body": "The PR  suggests that the scope is simply copied to the purp claim. Is this really the case? Shouldn't rather the scope of the presented Access Token be narrowed down to what is given in the scope request param?",
+              "createdAt": "2024-01-15T08:41:24Z",
+              "updatedAt": "2024-01-15T08:41:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5sjoqB",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T09:27:30Z",
+          "updatedAt": "2024-01-15T09:27:30Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "Considering a scenario where multiple trust domains are supported by the Txn-Service, I assume that the aud claim will be determined by the audience request parameter?",
+              "createdAt": "2024-01-15T09:27:30Z",
+              "updatedAt": "2024-01-15T09:27:30Z"
             }
           ]
         }
