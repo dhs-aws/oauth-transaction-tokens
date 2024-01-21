@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-18T00:57:04.095508+00:00",
+  "timestamp": "2024-01-21T01:02:10.412144+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -768,7 +768,7 @@
       ],
       "body": "We need to add in the [Security Considerations](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-01.html#name-security-considerations) section, information on how services may use Txn-Tokens securely, by possibly using them in conjunction with SPIFFE or other service-to-service security mechanisms.\r\n\r\n(based on feedback by Kai Lehmann (@obfuscoder))",
       "createdAt": "2023-10-26T23:21:58Z",
-      "updatedAt": "2023-11-14T00:14:05Z",
+      "updatedAt": "2024-01-19T17:42:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -777,6 +777,13 @@
           "body": "#21 talks about the same issue, but this is a broader statement.",
           "createdAt": "2023-11-14T00:14:05Z",
           "updatedAt": "2023-11-14T00:14:05Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We will use a new header named \"Txn-Token\"",
+          "createdAt": "2024-01-19T17:41:24Z",
+          "updatedAt": "2024-01-19T17:42:49Z"
         }
       ]
     },
@@ -855,10 +862,12 @@
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "PR57"
+      ],
       "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
       "createdAt": "2023-12-12T21:04:09Z",
-      "updatedAt": "2023-12-21T15:41:56Z",
+      "updatedAt": "2024-01-19T17:37:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -902,6 +911,13 @@
           "body": "So that assumes that the `sub` claim MUST be unique within the single trust domain as identified by the `aud` claim.  This might require the Transaction Token Service (TTS) to do some sort of identifier transformation as well as requiring both the AS and the TTS to both be authoritative for the `sub` claim value. This is easy if the AS is managing the transaction token request endpoint but if the TTS is it's own service and deployed in a distributed way, would that still be true?\r\n\r\nI can see the TTS being authoritative for the single trust domain but not necessarily for the `sub` identifier. However, I'm ok with moving in the direction you are suggesting Brian; I just want to make sure we aren't prohibiting some deployments by making that simplification.",
           "createdAt": "2023-12-21T15:41:55Z",
           "updatedAt": "2023-12-21T15:41:55Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "From discussion...\n\n1. 'iss' claim is optional\n2. be clear that there is no relationship between iss and sub claim\n3. sub is unique within context of the 'aud' or trust domain\n4. go back just supporting the `sub` claim (no sub_id)",
+          "createdAt": "2024-01-19T17:37:18Z",
+          "updatedAt": "2024-01-19T17:37:18Z"
         }
       ]
     },
