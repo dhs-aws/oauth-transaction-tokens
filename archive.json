@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-23T00:58:42.728926+00:00",
+  "timestamp": "2024-01-25T00:58:40.548677+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -861,13 +861,15 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [
         "PR57"
       ],
       "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
       "createdAt": "2023-12-12T21:04:09Z",
-      "updatedAt": "2024-01-19T17:37:35Z",
+      "updatedAt": "2024-01-24T13:21:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -918,6 +920,13 @@
           "body": "From discussion...\n\n1. 'iss' claim is optional\n2. be clear that there is no relationship between iss and sub claim\n3. sub is unique within context of the 'aud' or trust domain\n4. go back just supporting the `sub` claim (no sub_id)",
           "createdAt": "2024-01-19T17:37:18Z",
           "updatedAt": "2024-01-19T17:37:18Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added a new commit to PR #57 to address this issue.",
+          "createdAt": "2024-01-24T13:21:17Z",
+          "updatedAt": "2024-01-24T13:21:17Z"
         }
       ]
     },
@@ -1005,7 +1014,7 @@
       ],
       "body": "Should we allow the use of `actor_token` and `actor_token_type` to be used as a means of client authentication for the Transaction Token Service? If not, should explicitly prohibit the use of these parameters in the profile of the Token Exchange spec.",
       "createdAt": "2023-12-18T15:22:56Z",
-      "updatedAt": "2024-01-12T17:53:14Z",
+      "updatedAt": "2024-01-24T13:39:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -1028,6 +1037,13 @@
           "body": "Recommendation to update example and be silent on use of `actor_token` and `actor_token_type`. Add a section to Security Considerations to talk about client authentication and add some non-normative examples.",
           "createdAt": "2024-01-12T17:48:13Z",
           "updatedAt": "2024-01-12T17:48:13Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Removed the additional text regarding possible client authentication methods and just left it that the client MUST authenticate itself to the Transaction Token Service and that the specific client authentication method is out of scope for this specification.",
+          "createdAt": "2024-01-24T13:39:37Z",
+          "updatedAt": "2024-01-24T13:39:37Z"
         }
       ]
     },
@@ -1047,7 +1063,7 @@
       ],
       "body": "In PR #57, the token exchange `scope` parameter is profiled to carry the purpose or intent of the transaction and its value is copied into the `purp` claim of the resulting Txn-Token. \r\n\r\nIs this how we want to handle the 'purp' claim?",
       "createdAt": "2023-12-18T15:25:19Z",
-      "updatedAt": "2024-01-12T17:52:39Z",
+      "updatedAt": "2024-01-24T13:35:20Z",
       "closedAt": null,
       "comments": [
         {
@@ -1070,6 +1086,13 @@
           "body": "Recommended change that the TTS MUST take the value of the `scope` parameter to determine the `purp` claim of the TraT.",
           "createdAt": "2024-01-12T17:32:59Z",
           "updatedAt": "2024-01-12T17:32:59Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Based on this feedback, the `purp` claim is being made REQUIRED.",
+          "createdAt": "2024-01-24T13:35:18Z",
+          "updatedAt": "2024-01-24T13:35:18Z"
         }
       ]
     },
@@ -2379,13 +2402,13 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2024-01-15T09:27:30Z",
+      "updatedAt": "2024-01-24T18:08:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "token-exchange",
-      "headRefOid": "e050c981f856705a985f548955cdba808fbdb693",
+      "headRefOid": "27c3d4483a48735e4dc07d9b56652ec7403b43c9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -2975,6 +2998,156 @@
               "body": "Considering a scenario where multiple trust domains are supported by the Txn-Service, I assume that the aud claim will be determined by the audience request parameter?",
               "createdAt": "2024-01-15T09:27:30Z",
               "updatedAt": "2024-01-15T09:27:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5twcm-",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T13:46:28Z",
+          "updatedAt": "2024-01-24T13:46:28Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "After additional discussion, we've decided to move away from using the `sub_id` construct and just use `sub` and bind the uniqueness of the `sub` value to the trust domain as defined by the `aud` claim. An updated commit will make this change.",
+              "createdAt": "2024-01-24T13:46:28Z",
+              "updatedAt": "2024-01-24T13:46:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5twdiX",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T13:48:14Z",
+          "updatedAt": "2024-01-24T13:48:14Z",
+          "comments": [
+            {
+              "originalPosition": 98,
+              "body": "Good catch. The transaction token service (TTS) is authoritative for setting the `purp` claim. The text will be updated to allow the TTS to use the `scope` value to make the determination. Note that not all transaction token requests will contain an access token.",
+              "createdAt": "2024-01-24T13:48:14Z",
+              "updatedAt": "2024-01-24T13:48:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5twgWO",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T13:53:41Z",
+          "updatedAt": "2024-01-24T13:53:41Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "That could be a possible deployment solution provided all transaction token requests have a way to define the trust domain to be used for that request. I've updated the text to allow for this case.",
+              "createdAt": "2024-01-24T13:53:41Z",
+              "updatedAt": "2024-01-24T13:53:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5ty8Fq",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "KramNosaj01",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T18:08:22Z",
+          "updatedAt": "2024-01-24T18:08:22Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "where to put the tokens?im sorry im just beginner",
+              "createdAt": "2024-01-24T18:08:22Z",
+              "updatedAt": "2024-01-24T18:08:22Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOJt_WwM5kyLy6",
+      "title": "Add header",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/64",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch",
+        "PieterKas"
+      ],
+      "labels": [],
+      "body": "Addresses Issue #49 ",
+      "createdAt": "2024-01-23T01:46:29Z",
+      "updatedAt": "2024-01-23T21:36:14Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "add-header",
+      "headRefOid": "de88238614c25d1cae2faf9579193856385cf059",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5tq9e3",
+          "commit": {
+            "abbreviatedOid": "de88238"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-23T21:34:15Z",
+          "updatedAt": "2024-01-23T21:34:15Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "We should probably capitalize `Http` like in the other text",
+              "createdAt": "2024-01-23T21:34:15Z",
+              "updatedAt": "2024-01-23T21:34:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5tq-Xc",
+          "commit": {
+            "abbreviatedOid": "61e0025"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-23T21:36:13Z",
+          "updatedAt": "2024-01-23T21:36:14Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Do we need to (or should we) say anything about the encoding of the JWT?",
+              "createdAt": "2024-01-23T21:36:13Z",
+              "updatedAt": "2024-01-23T21:36:14Z"
             }
           ]
         }
