@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 28 July 2024                                        Capital One
+Expires: 29 July 2024                                        Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                         25 January 2024
+                                                         26 January 2024
 
 
                            Transaction Tokens
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 July 2024.
+   This Internet-Draft will expire on 29 July 2024.
 
 Copyright Notice
 
@@ -686,9 +686,7 @@ Table of Contents
    A workload that invokes another workload using HTTP and needs to
    present a Txn-Token to the invoked workload MUST use the HTTP Header
    Txn-Token to communicate the Txn-Token.  The value of this header
-   MUST be the JWT that represents the Txn-Token.  The JWT value MUST be
-   in the Base64 URL- and filename safe format as defined in Section 5
-   of [RFC4648], which is used by JWTs.
+   MUST be the JWT that represents the Txn-Token.
 
 9.  Security Considerations
 
