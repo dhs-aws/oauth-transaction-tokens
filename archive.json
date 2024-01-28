@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-25T00:58:40.548677+00:00",
+  "timestamp": "2024-01-28T00:56:34.670732+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2402,7 +2402,7 @@
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2024-01-24T18:08:22Z",
+      "updatedAt": "2024-01-25T22:36:01Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
@@ -3080,6 +3080,122 @@
               "updatedAt": "2024-01-24T18:08:22Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t8uhQ",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T20:36:26Z",
+          "updatedAt": "2024-01-25T20:51:03Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "I would like to make this language a bit more normative. How about something like \"The iss claim ... is optional. In situations where there are multiple Txn-Token issuers for the same trust domain, the iss claim MUST be included and MUST describe the issuer of the Txn-Token.\"",
+              "createdAt": "2024-01-25T20:36:26Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 67,
+              "body": "For compactness, should we change this name to \"rctx\" (since we are not using that in the Txn-Token request anymore) or something shorter?",
+              "createdAt": "2024-01-25T20:38:20Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 83,
+              "body": "Figure needs to be updated.",
+              "createdAt": "2024-01-25T20:39:10Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 101,
+              "body": "Typo: it's -> its\r\nShould we say \"MUST provide the Txn-Token Service with proof\"? (capitalize MUST)\r\nAlso, should we break this sentence into two parts: the required things (client-auth and purpose) and optional things (request context)? We should also drop the \"also\" from the last sentence (This profile also defines a new token type). We could even make that separate sub-section to clarify that we are defining a new token type.",
+              "createdAt": "2024-01-25T20:44:25Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 107,
+              "body": "Is the \"/\" required in the \"/token\"?",
+              "createdAt": "2024-01-25T20:48:22Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 122,
+              "body": "it's -> its",
+              "createdAt": "2024-01-25T20:48:52Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 146,
+              "body": "use \"trust domain\" instead of \"trust boundary\"?",
+              "createdAt": "2024-01-25T20:49:59Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t9D9w",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T21:36:21Z",
+          "updatedAt": "2024-01-25T21:36:21Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "I'm ok with that.",
+              "createdAt": "2024-01-25T21:36:21Z",
+              "updatedAt": "2024-01-25T21:36:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t9Eby",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T21:37:47Z",
+          "updatedAt": "2024-01-25T21:37:47Z",
+          "comments": [
+            {
+              "originalPosition": 107,
+              "body": "No, it's just my notation for identifying the endpoint. We could use \"OAuth {{RFC6749}} token endpoint\" to unique identify the endpoint.",
+              "createdAt": "2024-01-25T21:37:47Z",
+              "updatedAt": "2024-01-25T21:37:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t9Vt2",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T22:36:00Z",
+          "updatedAt": "2024-01-25T22:36:01Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "@tulshi are you ok if I just change the MAY to MUST?  It is still possible for multiple Txn-Token issues to use a predetermined signing key.\r\n\r\nI can add a sentence along the lines of \"The signing key MUST be discoverable via the `iss` claim\".\r\n\r\nIf we say that, do we need to define that discovery mechanism? or can we just refer to OAuth AS Metadata?",
+              "createdAt": "2024-01-25T22:36:01Z",
+              "updatedAt": "2024-01-25T22:36:01Z"
+            }
+          ]
         }
       ]
     },
@@ -3093,18 +3209,19 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "gffletch",
+        "bc-pi",
         "PieterKas"
       ],
       "labels": [],
       "body": "Addresses Issue #49 ",
       "createdAt": "2024-01-23T01:46:29Z",
-      "updatedAt": "2024-01-23T21:36:14Z",
+      "updatedAt": "2024-01-26T18:58:38Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "add-header",
-      "headRefOid": "de88238614c25d1cae2faf9579193856385cf059",
+      "headRefOid": "73b34be8246cabe1d2dffd7dcc33ac9ece57e127",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -3148,6 +3265,46 @@
               "body": "Do we need to (or should we) say anything about the encoding of the JWT?",
               "createdAt": "2024-01-23T21:36:13Z",
               "updatedAt": "2024-01-23T21:36:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t1RV0",
+          "commit": {
+            "abbreviatedOid": "61e0025"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T01:21:57Z",
+          "updatedAt": "2024-01-25T01:21:58Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I've updated the language to specify the encoding. However, I feel like this might be redundant.",
+              "createdAt": "2024-01-25T01:21:57Z",
+              "updatedAt": "2024-01-25T01:21:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uDVAO",
+          "commit": {
+            "abbreviatedOid": "61e0025"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-26T18:58:38Z",
+          "updatedAt": "2024-01-26T18:58:38Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "See [notes](https://hackmd.io/@rpc-sec-wg/BJKeLDZcp) of call on 1/26. We have decided to drop the line about the format.",
+              "createdAt": "2024-01-26T18:58:38Z",
+              "updatedAt": "2024-01-26T18:58:38Z"
             }
           ]
         }
