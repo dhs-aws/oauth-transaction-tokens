@@ -735,7 +735,7 @@ Table of Contents
 
    Txn-Tokens need to be communicated between workloads that depend upon
    them to authorize the request.  Such workloads will often present
-   HTTP [RFC2616] interfaces for being invoked by other workloads.  This
+   HTTP [RFC9110] interfaces for being invoked by other workloads.  This
    section specifies the HTTP header the invoking workload MUST use to
    communicate the Txn-Token to the invoked workload, when the invoked
    workload presents an HTTP interface.  Note that the standard HTTP
@@ -867,16 +867,6 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
-   [RFC2616]  Fielding, R., Gettys, J., Mogul, J., Frystyk, H.,
-              Masinter, L., Leach, P., and T. Berners-Lee, "Hypertext
-              Transfer Protocol -- HTTP/1.1", RFC 2616,
-              DOI 10.17487/RFC2616, June 1999,
-              <https://www.rfc-editor.org/rfc/rfc2616>.
-
-   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
-              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
-              <https://www.rfc-editor.org/rfc/rfc4648>.
-
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/rfc/rfc8446>.
@@ -893,10 +883,6 @@ Table of Contents
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/rfc/rfc7515>.
 
-   [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
-              (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
-              <https://www.rfc-editor.org/rfc/rfc8141>.
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -911,22 +897,16 @@ Table of Contents
               DOI 10.17487/RFC8417, July 2018,
               <https://www.rfc-editor.org/rfc/rfc8417>.
 
-   [RFC9493]  Backman, A., Ed., Scurtescu, M., and P. Jain, "Subject
-              Identifiers for Security Event Tokens", RFC 9493,
-              DOI 10.17487/RFC9493, December 2023,
-              <https://www.rfc-editor.org/rfc/rfc9493>.
+   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
 
    [OpenIdConnect]
               Sakimura, N., Bradley, J., Jones, M., Medeiros, B. de.,
               and C. Mortimore, "OpenID Connect Core 1.0 incorporating
               errata set 1", November 2014,
               <https://openid.net/specs/openid-connect-core-1_0.html>.
-
-   [SubjectIdentifiers]
-              Backman, A., Scurtescu, M., and P. Jain, "Subject
-              Identifiers for Security Event Tokens", n.d.,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-
-              secevent-subject-identifiers>.
 
 12.2.  Informative References
 
