@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-28T00:56:34.670732+00:00",
+  "timestamp": "2024-01-30T00:53:24.477516+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -759,7 +759,7 @@
       "id": "I_kwDOJt_WwM51GBCr",
       "title": "Using Txn-Tokens securely",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/49",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -768,8 +768,8 @@
       ],
       "body": "We need to add in the [Security Considerations](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-01.html#name-security-considerations) section, information on how services may use Txn-Tokens securely, by possibly using them in conjunction with SPIFFE or other service-to-service security mechanisms.\r\n\r\n(based on feedback by Kai Lehmann (@obfuscoder))",
       "createdAt": "2023-10-26T23:21:58Z",
-      "updatedAt": "2024-01-19T17:42:49Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-29T19:00:18Z",
+      "closedAt": "2024-01-29T19:00:18Z",
       "comments": [
         {
           "author": "tulshi",
@@ -1108,9 +1108,17 @@
       "labels": [],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
       "createdAt": "2024-01-15T08:11:42Z",
-      "updatedAt": "2024-01-15T08:11:42Z",
+      "updatedAt": "2024-01-29T16:43:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So a couple of thoughts here:\r\n\r\n1. I believe the Txn-Token Service (TTS) must be able to issue Txn-Tokens without a previously issued access_token. Think about a use case where email is being delivered to a mail box. SMTP does not carry the access token that authorized the sending of the email. In that context, the in-bound email server needs to be able to request a Txn-Token for the purpose of delivering the email to the specified inbox.\r\n2. The general intent for keeping Txn-Tokens very short lived is to remove the need for revocation. Revocation is difficult for any token system (see the issuer-holder-verifier efforts in this space). Given that the vast majority of transactions complete in a very short timeframe, keeping the life-time of the Txn-Token short makes a lot of sense.\r\n3. There are some edge cases where a longer lived Txn-Token may be beneficial or required.  Say for instance a user asks for their account to be deleted (GDPR) and the Txn-Token needs to live for multiple days? even though the underlying identity system may have cleaned up the user identifier data. That said, these edge cases should be vetted very carefully as there is a security risk if a Txn-Token lives for a long time and hence can be replayed potentially in compromising ways.",
+          "createdAt": "2024-01-29T16:43:21Z",
+          "updatedAt": "2024-01-29T16:43:21Z"
+        }
+      ]
     },
     {
       "number": 63,
@@ -1124,9 +1132,17 @@
       "labels": [],
       "body": "This issue is somewhat related to the aud claim comment I made earlier via mail to the authors.\r\n\r\nThe spec states that audience parameter is REQUIRED in the Txn-Token request. It contains the trust domain. To my understanding, every trust domain as a single (logical) Txn-Service. A Txn-Service is usually configured to only issue Txn-Tokens to one and only one trust domain. Also the authenticating clients which the Txn-Service accepts in incoming requests are part of that trust domain. After all, they have been registered within that trust domain. It might be possible that the Txn-Service is used in multiple trust domains. In those scenarios I fully agree that the audience parameter is REQUIRED. My guess is, though, that the most deployed setup will incorporate a single trust domain.",
       "createdAt": "2024-01-15T08:30:44Z",
-      "updatedAt": "2024-01-15T08:30:44Z",
+      "updatedAt": "2024-01-29T14:07:41Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So, with the move to bind the `sub` claim to the trust domain identified by the `aud` claim, I believe we should keep it to be required. I also think that there will be deployments with multiple Transaction Token Services (each using their own unique signing keys) that service a single trust domain. \r\n\r\nWhat is the benefit of making the `aud` claim optional?",
+          "createdAt": "2024-01-29T14:07:40Z",
+          "updatedAt": "2024-01-29T14:07:40Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2395,24 +2411,26 @@
       "id": "PR_kwDOJt_WwM5h1it9",
       "title": "Token exchange profile update",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/57",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
       "createdAt": "2023-12-12T21:23:08Z",
-      "updatedAt": "2024-01-25T22:36:01Z",
+      "updatedAt": "2024-01-29T19:44:50Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "token-exchange",
-      "headRefOid": "27c3d4483a48735e4dc07d9b56652ec7403b43c9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "5a8d9a3ec2d59c5ad95253f063179ebc262a953c",
+      "closedAt": "2024-01-29T19:43:15Z",
+      "mergedAt": "2024-01-29T19:43:14Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "379227fd8af3a3cf17e7a5ae53073cc67a0331a1"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3196,6 +3214,59 @@
               "updatedAt": "2024-01-25T22:36:01Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uMVtR",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-29T13:52:15Z",
+          "updatedAt": "2024-01-29T13:52:15Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "I took out the `iss` claim, and replaced `sub_id` with `sub`",
+              "createdAt": "2024-01-29T13:52:15Z",
+              "updatedAt": "2024-01-29T13:52:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uMXT7",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-29T13:55:25Z",
+          "updatedAt": "2024-01-29T13:55:26Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "I called out more clearly the optional parts from the required parts. Let me know what you think.",
+              "createdAt": "2024-01-29T13:55:25Z",
+              "updatedAt": "2024-01-29T13:55:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uPuGi",
+          "commit": {
+            "abbreviatedOid": "5a8d9a3"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T19:38:00Z",
+          "updatedAt": "2024-01-29T19:38:00Z",
+          "comments": []
         }
       ]
     },
@@ -3204,7 +3275,7 @@
       "id": "PR_kwDOJt_WwM5kyLy6",
       "title": "Add header",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/64",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3215,17 +3286,19 @@
       "labels": [],
       "body": "Addresses Issue #49 ",
       "createdAt": "2024-01-23T01:46:29Z",
-      "updatedAt": "2024-01-26T18:58:38Z",
+      "updatedAt": "2024-01-29T19:00:18Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "add-header",
       "headRefOid": "73b34be8246cabe1d2dffd7dcc33ac9ece57e127",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-01-29T19:00:17Z",
+      "mergedAt": "2024-01-29T19:00:17Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "96733800e3e40a781fdc40473af9faea91e34458"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3307,6 +3380,87 @@
               "updatedAt": "2024-01-26T18:58:38Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uMcPc",
+          "commit": {
+            "abbreviatedOid": "73b34be"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T14:04:48Z",
+          "updatedAt": "2024-01-29T14:04:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 65,
+      "id": "PR_kwDOJt_WwM5lXcDe",
+      "title": "updated HTTP reference",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/65",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-29T19:17:03Z",
+      "updatedAt": "2024-01-29T21:56:00Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "379227fd8af3a3cf17e7a5ae53073cc67a0331a1",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "update-http-rfc-ref",
+      "headRefOid": "d1c4ed26d6b913f5f163e362b83ccb273dfaf7be",
+      "closedAt": "2024-01-29T21:55:59Z",
+      "mergedAt": "2024-01-29T21:55:59Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d3110bceb6efcd50383b3528888cc362117fe44d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5uPu0m",
+          "commit": {
+            "abbreviatedOid": "2229c0e"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T19:39:46Z",
+          "updatedAt": "2024-01-29T19:39:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uP1Aa",
+          "commit": {
+            "abbreviatedOid": "2229c0e"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good",
+          "createdAt": "2024-01-29T19:55:43Z",
+          "updatedAt": "2024-01-29T19:55:43Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uQmHm",
+          "commit": {
+            "abbreviatedOid": "d1c4ed2"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T21:52:50Z",
+          "updatedAt": "2024-01-29T21:52:50Z",
+          "comments": []
         }
       ]
     }
