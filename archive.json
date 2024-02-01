@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-30T00:53:24.477516+00:00",
+  "timestamp": "2024-02-01T00:55:56.755512+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -374,7 +374,7 @@
       "labels": [],
       "body": "I assume the token is sent in the header. Do we have any recommendations for the header name?",
       "createdAt": "2023-07-12T20:48:47Z",
-      "updatedAt": "2023-11-14T00:12:51Z",
+      "updatedAt": "2024-01-30T11:54:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -404,6 +404,13 @@
           "body": "Duplicate of #49 ",
           "createdAt": "2023-11-14T00:12:51Z",
           "updatedAt": "2023-11-14T00:12:51Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "I believe, this issue can be closed as well?",
+          "createdAt": "2024-01-30T11:54:40Z",
+          "updatedAt": "2024-01-30T11:54:40Z"
         }
       ]
     },
@@ -647,7 +654,7 @@
       "labels": [],
       "body": "Can we clarify in the examples how do internal services authorize the Transaction tokens?\r\n1. Are all the internal services bootstrapped with the token service public key?\r\n2. How do internal services know the boundaries of the trust domain or whether is it part of it?",
       "createdAt": "2023-09-18T21:57:27Z",
-      "updatedAt": "2023-10-26T20:45:03Z",
+      "updatedAt": "2024-01-30T11:53:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -684,6 +691,13 @@
           "body": "@obfuscoder 's point about all services in the same trust domain know the issuer and putting the `iss` field adds clutter is valid. We can make that field optional in the draft. I believe it is required right now. [Section 5.2.1](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-01.html#name-common-claims).\r\n\r\nEven if we made this claim optional, we should still note the point about validating the `iss` claim so that it prevents external issuers from being trusted by internal services in the Security Considerations section.",
           "createdAt": "2023-10-26T20:45:02Z",
           "updatedAt": "2023-10-26T20:45:02Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "As the required iss claim is now replaced with the required aud claim, there should be some validation guidelines for this parameter.\r\n\r\nIn the absence of the iss claim, discovery is not available and either SPIFFE or preconfigured URLs of the TTS and/or its JWKS is possible.",
+          "createdAt": "2024-01-30T11:53:25Z",
+          "updatedAt": "2024-01-30T11:53:25Z"
         }
       ]
     },
@@ -841,7 +855,7 @@
       "labels": [],
       "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
       "createdAt": "2023-11-15T22:58:21Z",
-      "updatedAt": "2023-12-07T14:46:43Z",
+      "updatedAt": "2024-01-30T11:49:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -850,6 +864,13 @@
           "body": "Transaction Tokens can definitely be used with legitimate calls that don't have an external trigger. The key element from an authorization perspective, is \"who is allowed to request an transaction token\" and \"for what purpose(s)\". If any service can request a transaction token, then it's important to limit the scope of how that transaction token can be used. In other words, we wouldn't want the logging service to be able to request a transaction service for the purpose of transferring crypto from a user's account.\r\n\r\nI would argue that there is still a `req_ctx` in this case, it may just contain different claims. I would expect downstream systems to want to know the originating workload that requested the transaction token.\r\n\r\nAs for `azd`, I agree that there are use cases where that needs to be specified to the Transaction Token service.\r\n\r\nGreat points on areas where we need to enhance the specification.",
           "createdAt": "2023-12-07T14:46:42Z",
           "updatedAt": "2023-12-07T14:46:42Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "Reviewing this issue, I can see a relation with #62. As it has been established that requesting Txn-Tokens without an external trigger is needed. however, the current spec requires an Access token to be presented in the subject_token parameter and the question is, how an internal batch process would obtain this. @dteguin (and me in the related issue #62) mentioned Client credentials grant for obtaining the AT. However, client credentials grant based ATs may not be related to users referred to with the sub claim, so it may be a challenge to issue Txn-Tokens with a user-related sub when the client credentials grant based AT does not contain one.\r\n\r\nIn #62 I gave an example where a batch processor might be able to present an expired Txn-Token, but there are still scenarios where no AT can be presented in the subject_token parameter or where the presented subject_token does not contain the information necessary to fill and issue the Txn-Token. This information needs to be provided somehow to the TTS. If this information must be part of the subject_token or somehow be obtainable by the TTS via parts of the subject_token content, it should at least be mentioned in the spec.\r\n\r\nPersonally, I'd like to see an option where the TTS can be called without a subject_token as input and instead providing the necessary information via additional parameters (e.g. sub within the req_ctx). It goes without saying, that this type of Token issuance should only be allowed to a very limited set of authenticated clients which have a special trust relationship with the TTS.",
+          "createdAt": "2024-01-30T11:49:00Z",
+          "updatedAt": "2024-01-30T11:49:00Z"
         }
       ]
     },
@@ -869,7 +890,7 @@
       ],
       "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
       "createdAt": "2023-12-12T21:04:09Z",
-      "updatedAt": "2024-01-24T13:21:19Z",
+      "updatedAt": "2024-01-31T07:08:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -927,6 +948,20 @@
           "body": "Added a new commit to PR #57 to address this issue.",
           "createdAt": "2024-01-24T13:21:17Z",
           "updatedAt": "2024-01-24T13:21:17Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "A few months ago, I also suggested to support the sub claim as per JWT RFC. As the current spec has replaced sub_id with sub, I appreciate that the sub claim is supported now.",
+          "createdAt": "2024-01-30T11:26:38Z",
+          "updatedAt": "2024-01-31T07:08:56Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi Kai,\r\nThanks so much for your input in this process.\r\n\r\nAtul\r\n\r\nOn Tue, Jan 30, 2024 at 3:26\u202fAM Kai Lehmann ***@***.***>\r\nwrote:\r\n\r\n> A few months ago, I also suggested to support the sub claim as per JWT\r\n> RFC. As the current spec has replaced sub_id with sub. I appreciate that\r\n> the sub claim is supported now.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/56#issuecomment-1916638607>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG5Y4DBPQOKJBPKGHRLYRDKHTAVCNFSM6AAAAABASDKZWWVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMYTSMJWGYZTQNRQG4>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: ***@***.***>\r\n>\r\n",
+          "createdAt": "2024-01-31T00:51:53Z",
+          "updatedAt": "2024-01-31T00:51:53Z"
         }
       ]
     },
@@ -1108,7 +1143,7 @@
       "labels": [],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
       "createdAt": "2024-01-15T08:11:42Z",
-      "updatedAt": "2024-01-29T16:43:21Z",
+      "updatedAt": "2024-01-30T11:18:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -1117,6 +1152,13 @@
           "body": "So a couple of thoughts here:\r\n\r\n1. I believe the Txn-Token Service (TTS) must be able to issue Txn-Tokens without a previously issued access_token. Think about a use case where email is being delivered to a mail box. SMTP does not carry the access token that authorized the sending of the email. In that context, the in-bound email server needs to be able to request a Txn-Token for the purpose of delivering the email to the specified inbox.\r\n2. The general intent for keeping Txn-Tokens very short lived is to remove the need for revocation. Revocation is difficult for any token system (see the issuer-holder-verifier efforts in this space). Given that the vast majority of transactions complete in a very short timeframe, keeping the life-time of the Txn-Token short makes a lot of sense.\r\n3. There are some edge cases where a longer lived Txn-Token may be beneficial or required.  Say for instance a user asks for their account to be deleted (GDPR) and the Txn-Token needs to live for multiple days? even though the underlying identity system may have cleaned up the user identifier data. That said, these edge cases should be vetted very carefully as there is a security risk if a Txn-Token lives for a long time and hence can be replayed potentially in compromising ways.",
           "createdAt": "2024-01-29T16:43:21Z",
           "updatedAt": "2024-01-29T16:43:21Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "The use cases you mention are pretty much what we had to implement.\r\n\r\n1. For incoming mails we have a mail delivery agent which wants to use the mail storage system service to store the mail in the user mailbox. In order to write to the mailbox of a user, the delivery agent needs a Txn-Token with the sub of the user. The delivery agent asks the TTS about a Txn-Token and presents its client credentials and the mail address of the recipient/user. The TTS allows issuing Txn-Tokens to the delivery agent. There is no long-living access token involved. The issued Txn-Token is short lived (1 minute in our deployments).\r\n\r\n3. Whenever a user cancels their contract, we have to keep the data for some time (number of days depending on type of data, legal restrictions, etc.) after the delete operations are performed. The delayed delete operation is done by batch processes. Now, instead of creating and storing long-living access tokens which could be leaked and abused elsewhere, we decided to retain the short-lived Txn-Tokens and allow only those batch processes to ask the TTS to issue new Txn-Tokens for already expired Txn-Tokens to perform the actual delete operation which requires a valid and not expired Txn-Token when calling the storage system services.\r\n\r\nSo my argument is against using (and potentially abusing) long-living access tokens, and instead for allowing expired Txn-Tokens to be presented to the TTS to re-issue Txn-Tokens for the purpose of finalizing a delayed operation.",
+          "createdAt": "2024-01-30T11:17:56Z",
+          "updatedAt": "2024-01-30T11:18:24Z"
         }
       ]
     },
@@ -1130,9 +1172,9 @@
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
-      "body": "This issue is somewhat related to the aud claim comment I made earlier via mail to the authors.\r\n\r\nThe spec states that audience parameter is REQUIRED in the Txn-Token request. It contains the trust domain. To my understanding, every trust domain as a single (logical) Txn-Service. A Txn-Service is usually configured to only issue Txn-Tokens to one and only one trust domain. Also the authenticating clients which the Txn-Service accepts in incoming requests are part of that trust domain. After all, they have been registered within that trust domain. It might be possible that the Txn-Service is used in multiple trust domains. In those scenarios I fully agree that the audience parameter is REQUIRED. My guess is, though, that the most deployed setup will incorporate a single trust domain.",
+      "body": "This issue is somewhat related to the aud claim comment I made earlier via mail to the authors.\r\n\r\nThe spec states that audience parameter is REQUIRED in the Txn-Token request. It contains the trust domain. To my understanding, every trust domain has a single (logical) Txn-Service. A Txn-Service is usually configured to only issue Txn-Tokens to one and only one trust domain. Also the authenticating clients which the Txn-Service accepts in incoming requests are part of that trust domain. After all, they have been registered within that trust domain. It might be possible that the Txn-Service is used in multiple trust domains. In those scenarios I fully agree that the audience parameter is REQUIRED. My guess is, though, that the most deployed setup will incorporate a single trust domain.",
       "createdAt": "2024-01-15T08:30:44Z",
-      "updatedAt": "2024-01-29T14:07:41Z",
+      "updatedAt": "2024-01-30T10:06:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -1141,8 +1183,31 @@
           "body": "So, with the move to bind the `sub` claim to the trust domain identified by the `aud` claim, I believe we should keep it to be required. I also think that there will be deployments with multiple Transaction Token Services (each using their own unique signing keys) that service a single trust domain. \r\n\r\nWhat is the benefit of making the `aud` claim optional?",
           "createdAt": "2024-01-29T14:07:40Z",
           "updatedAt": "2024-01-29T14:07:40Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "> What is the benefit of making the aud claim optional?\r\n\r\nMostly brevity reasons. Also, if it is defined as REQUIRED, it will be enforced by 3rd party libraries which a company might want to integrate in their components/services. This essentially forces the company (albeit using Txn-Tokens within their trust domain only internally) to define and set the aud claim without added benefit.\r\n\r\nHaving aud REQUIRED also implies that the value needs to be validated somehow. I think this aspect should be mentioned in the spec, if it is really required. So every Token service must have the audience parameter validated as well as every service/worker receiving a Txn-Token must validate the aud claim against a configured accepted value (or list of values).\r\n",
+          "createdAt": "2024-01-30T10:06:57Z",
+          "updatedAt": "2024-01-30T10:06:57Z"
         }
       ]
+    },
+    {
+      "number": 66,
+      "id": "I_kwDOJt_WwM59nfI7",
+      "title": "Trust domain/audience claim format URI or StringOrUri?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/66",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In the Terminology section, the Trust Domain value is being defined and referenced in the aud claim as universal resource identifier. It should be spelled Universal Resource Identifier and a reference to RFC3986 should be added.\r\n\r\nHowever, later in the document, the aud claim value is specified as defined in RFC7519. This RFC defines the aud claim as \"StringOrURI\". The different passages should be aligned.\r\n\r\nFurthermore, the examples for the aud claim values should be aligned accordingly. In section Txn-Token Request the POST request example to the token service uses:\r\n\r\n`&audience=http%3A%2F%2Ftrust-domain.example`\r\n\r\nIf an URI is used, I suggest to use 'https' instead of 'http'.\r\n\r\nLater the JWT body example of the Txn-Token just uses a string:\r\n\r\n`\"aud\": \"trust-domain.example\",`\r\n",
+      "createdAt": "2024-01-30T10:38:12Z",
+      "updatedAt": "2024-01-30T10:38:12Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -3463,6 +3528,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 67,
+      "id": "PR_kwDOJt_WwM5lbwpr",
+      "title": "Clarify and align audience claim value format",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/67",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolve #66",
+      "createdAt": "2024-01-30T10:48:05Z",
+      "updatedAt": "2024-01-30T10:48:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3110bceb6efcd50383b3528888cc362117fe44d",
+      "headRepository": "obfuscoder/oauth-transaction-tokens",
+      "headRefName": "audformat",
+      "headRefOid": "1150bfd047e72e55a1be4b7c33e0a260d0685dfc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
