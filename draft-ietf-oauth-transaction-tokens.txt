@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 1 August 2024                                       Capital One
+Expires: 5 August 2024                                       Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                         29 January 2024
+                                                         2 February 2024
 
 
                            Transaction Tokens
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 August 2024.
+   This Internet-Draft will expire on 5 August 2024.
 
 Copyright Notice
 
@@ -100,9 +100,8 @@ Table of Contents
      8.1.  Txn-Token HTTP Header
    9.  Security Considerations
      9.1.  Txn-Token Lifetime
-     9.2.  Sender Constrained Tokens
-     9.3.  Access Tokens
-     9.4.  Client Authentication
+     9.2.  Access Tokens
+     9.3.  Client Authentication
    10. Privacy Considerations
      10.1.  Obsfucation of Personal Information
    11. IANA Considerations
@@ -772,14 +771,7 @@ Table of Contents
    field, which indicates the token lifetime.  The scope field is
    omitted from the request and therefore omitted in the response.
 
-9.2.  Sender Constrained Tokens
-
-   Although Txn-Tokens are short-lived, they MAY be sender constrained
-   as an additional layer of defence to prevent them from being re-used
-   by a compromised or malicious workload under the control of a hostile
-   actor.
-
-9.3.  Access Tokens
+9.2.  Access Tokens
 
    When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access
    Token presented to the external endpoint.  If an Access Token is
@@ -789,7 +781,7 @@ Table of Contents
    this attack since the Access Token may remain valid even after the
    Txn-Token has expired.
 
-9.4.  Client Authentication
+9.3.  Client Authentication
 
    How requesting clients authenticate to the Transaction Token Service
    is out of scope for this specification.  However, if using the

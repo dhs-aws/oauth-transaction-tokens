@@ -1030,11 +1030,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">January 2024</td>
+<td class="right">February 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 1 August 2024</td>
+<td class="center">Expires 5 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-29" class="published">29 January 2024</time>
+<time datetime="2024-02-02" class="published">2 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-01">1 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-05">5 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1247,13 +1247,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-txn-token-lifetime-2" class="internal xref">Txn-Token Lifetime</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-sender-constrained-tokens" class="internal xref">Sender Constrained Tokens</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-access-tokens" class="internal xref">Access Tokens</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
-                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-access-tokens" class="internal xref">Access Tokens</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.4">
-                <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="auto internal xref">9.4</a>.  <a href="#name-client-authentication" class="internal xref">Client Authentication</a></p>
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-client-authentication" class="internal xref">Client Authentication</a></p>
 </li>
             </ul>
 </li>
@@ -1994,28 +1991,20 @@ Cache-Control: no-cache, no-store
 <p id="section-9.1-3">The <code>expires_in</code> and <code>scope</code> fields of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> are also not used in Txn-Token responses. The <code>expires_in</code> is not required since the issued token has an <code>exp</code> field, which indicates the token lifetime. The <code>scope</code> field is omitted from the request and therefore omitted in the response.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="sender-constrained-tokens">
-<section id="section-9.2">
-        <h3 id="name-sender-constrained-tokens">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-sender-constrained-tokens" class="section-name selfRef">Sender Constrained Tokens</a>
-        </h3>
-<p id="section-9.2-1">Although Txn-Tokens are short-lived, they MAY be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="access-tokens">
-<section id="section-9.3">
+<section id="section-9.2">
         <h3 id="name-access-tokens">
-<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-access-tokens" class="section-name selfRef">Access Tokens</a>
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-access-tokens" class="section-name selfRef">Access Tokens</a>
         </h3>
-<p id="section-9.3-1">When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-authentication">
-<section id="section-9.4">
+<section id="section-9.3">
         <h3 id="name-client-authentication">
-<a href="#section-9.4" class="section-number selfRef">9.4. </a><a href="#name-client-authentication" class="section-name selfRef">Client Authentication</a>
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-client-authentication" class="section-name selfRef">Client Authentication</a>
         </h3>
-<p id="section-9.4-1">How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the <code>actor_token</code> and <code>actor_token_type</code> parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The <code>actor_token</code> MUST autenticate the identity of the requesting workload.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
+<p id="section-9.3-1">How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the <code>actor_token</code> and <code>actor_token_type</code> parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The <code>actor_token</code> MUST autenticate the identity of the requesting workload.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
