@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-01T00:55:56.755512+00:00",
+  "timestamp": "2024-02-04T00:57:14.049698+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -367,15 +367,15 @@
       "id": "I_kwDOJt_WwM5rZFsz",
       "title": "Txt token Header ",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/21",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "naveencm4u1",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "I assume the token is sent in the header. Do we have any recommendations for the header name?",
       "createdAt": "2023-07-12T20:48:47Z",
-      "updatedAt": "2024-01-30T11:54:41Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-01T22:48:57Z",
+      "closedAt": "2024-02-01T22:48:57Z",
       "comments": [
         {
           "author": "gffletch",
@@ -647,15 +647,15 @@
       "id": "I_kwDOJt_WwM5xW1Gr",
       "title": "How do internal services authorize the Transaction Tokens?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/35",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "appsdesh",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Can we clarify in the examples how do internal services authorize the Transaction tokens?\r\n1. Are all the internal services bootstrapped with the token service public key?\r\n2. How do internal services know the boundaries of the trust domain or whether is it part of it?",
       "createdAt": "2023-09-18T21:57:27Z",
-      "updatedAt": "2024-01-30T11:53:26Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-01T22:48:39Z",
+      "closedAt": "2024-02-01T22:48:39Z",
       "comments": [
         {
           "author": "tulshi",
@@ -698,6 +698,13 @@
           "body": "As the required iss claim is now replaced with the required aud claim, there should be some validation guidelines for this parameter.\r\n\r\nIn the absence of the iss claim, discovery is not available and either SPIFFE or preconfigured URLs of the TTS and/or its JWKS is possible.",
           "createdAt": "2024-01-30T11:53:25Z",
           "updatedAt": "2024-01-30T11:53:25Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "we have made `iss` optional now, after much discussion, so closing this issue.",
+          "createdAt": "2024-02-01T22:48:39Z",
+          "updatedAt": "2024-02-01T22:48:39Z"
         }
       ]
     },
@@ -742,13 +749,15 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [
         "pre-adoption"
       ],
       "body": "              It would be good to show how, in a replacement txn-token, the identity of the previous sub_id is preserved. The replacement token may have a new sub_id that represent the workload that requested the replacement token.\r\n\r\n_Originally posted by @PieterKas in https://github.com/SGNL-ai/transaction-tokens/issues/30#issuecomment-1745613590_\r\n            ",
       "createdAt": "2023-10-18T04:09:25Z",
-      "updatedAt": "2023-11-13T22:21:57Z",
+      "updatedAt": "2024-02-02T19:19:53Z",
       "closedAt": null,
       "comments": []
     },
@@ -757,15 +766,15 @@
       "id": "I_kwDOJt_WwM51GAj8",
       "title": "\"sender constrained\" language needs improvement",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/48",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The language in section [Sender Constrained Tokens](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-01.html#name-sender-constrained-tokens) needs to refer to the RFC and specify how to use them with Txn-Tokens",
       "createdAt": "2023-10-26T23:19:03Z",
-      "updatedAt": "2023-10-26T23:19:03Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-02T16:49:42Z",
+      "closedAt": "2024-02-02T16:49:42Z",
       "comments": []
     },
     {
@@ -830,7 +839,7 @@
       "id": "I_kwDOJt_WwM52iZ-T",
       "title": "Should the azd claim be mandatory or optional",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/52",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -839,9 +848,17 @@
       ],
       "body": "I\u2019m wondering if we should move the `azd` claim to the Optional section as there may be some cases where it\u2019s not required. I\u2019d hate for systems to have to process and empty `azd` object. We might be able to leave it in the MUST category if we add text that says if there are no `azd` claims then the object MUST NOT be included in the transaction token.",
       "createdAt": "2023-11-11T04:51:17Z",
-      "updatedAt": "2023-11-13T22:21:27Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-02-01T22:33:10Z",
+      "closedAt": "2024-02-01T22:33:10Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since we no longer have an optional and mandatory section, I shall close this issue. Please reopen if you think this needs to be addressed.",
+          "createdAt": "2024-02-01T22:33:10Z",
+          "updatedAt": "2024-02-01T22:33:10Z"
+        }
+      ]
     },
     {
       "number": 53,
@@ -851,11 +868,13 @@
       "state": "OPEN",
       "author": "dteleguin",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
       "createdAt": "2023-11-15T22:58:21Z",
-      "updatedAt": "2024-01-30T11:49:00Z",
+      "updatedAt": "2024-02-02T19:20:34Z",
       "closedAt": null,
       "comments": [
         {
@@ -871,6 +890,34 @@
           "body": "Reviewing this issue, I can see a relation with #62. As it has been established that requesting Txn-Tokens without an external trigger is needed. however, the current spec requires an Access token to be presented in the subject_token parameter and the question is, how an internal batch process would obtain this. @dteguin (and me in the related issue #62) mentioned Client credentials grant for obtaining the AT. However, client credentials grant based ATs may not be related to users referred to with the sub claim, so it may be a challenge to issue Txn-Tokens with a user-related sub when the client credentials grant based AT does not contain one.\r\n\r\nIn #62 I gave an example where a batch processor might be able to present an expired Txn-Token, but there are still scenarios where no AT can be presented in the subject_token parameter or where the presented subject_token does not contain the information necessary to fill and issue the Txn-Token. This information needs to be provided somehow to the TTS. If this information must be part of the subject_token or somehow be obtainable by the TTS via parts of the subject_token content, it should at least be mentioned in the spec.\r\n\r\nPersonally, I'd like to see an option where the TTS can be called without a subject_token as input and instead providing the necessary information via additional parameters (e.g. sub within the req_ctx). It goes without saying, that this type of Token issuance should only be allowed to a very limited set of authenticated clients which have a special trust relationship with the TTS.",
           "createdAt": "2024-01-30T11:49:00Z",
           "updatedAt": "2024-01-30T11:49:00Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree that the `subject_token` can be an optional field in the TraT request. We should update the spec to say so. We can discuss this issue on Friday 2/2",
+          "createdAt": "2024-02-01T23:44:44Z",
+          "updatedAt": "2024-02-01T23:44:44Z"
+        },
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "As per RFC 8639, `subject_token` and `subject_token_type` are [required](https://datatracker.ietf.org/doc/html/rfc8693#name-request). Do you think we can \"override\" that in this spec @tulshi ?",
+          "createdAt": "2024-02-01T23:49:30Z",
+          "updatedAt": "2024-02-01T23:49:30Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We could agree on some placeholder to avoid being non-compliant with the RFC8693 (in the event that there is no input token)",
+          "createdAt": "2024-02-02T00:06:41Z",
+          "updatedAt": "2024-02-02T00:06:41Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "There is this \"N_A\" which could be reused here?",
+          "createdAt": "2024-02-02T05:51:22Z",
+          "updatedAt": "2024-02-02T05:51:22Z"
         }
       ]
     },
@@ -879,7 +926,7 @@
       "id": "I_kwDOJt_WwM55gcQk",
       "title": "RFC 9493 and sub_id formats",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/56",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -890,8 +937,8 @@
       ],
       "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
       "createdAt": "2023-12-12T21:04:09Z",
-      "updatedAt": "2024-01-31T07:08:56Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-01T22:47:02Z",
+      "closedAt": "2024-02-01T22:47:02Z",
       "comments": [
         {
           "author": "bc-pi",
@@ -962,6 +1009,13 @@
           "body": "Hi Kai,\r\nThanks so much for your input in this process.\r\n\r\nAtul\r\n\r\nOn Tue, Jan 30, 2024 at 3:26\u202fAM Kai Lehmann ***@***.***>\r\nwrote:\r\n\r\n> A few months ago, I also suggested to support the sub claim as per JWT\r\n> RFC. As the current spec has replaced sub_id with sub. I appreciate that\r\n> the sub claim is supported now.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/56#issuecomment-1916638607>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG5Y4DBPQOKJBPKGHRLYRDKHTAVCNFSM6AAAAABASDKZWWVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMYTSMJWGYZTQNRQG4>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: ***@***.***>\r\n>\r\n",
           "createdAt": "2024-01-31T00:51:53Z",
           "updatedAt": "2024-01-31T00:51:53Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since we have removed sub_ids now, I will close this issue.",
+          "createdAt": "2024-02-01T22:47:02Z",
+          "updatedAt": "2024-02-01T22:47:02Z"
         }
       ]
     },
@@ -970,7 +1024,7 @@
       "id": "I_kwDOJt_WwM56AT6_",
       "title": "Authorization details presentation and processing",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/58",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -981,8 +1035,8 @@
       ],
       "body": "PR #57 raised a number of issues around processing of authorization details\r\n\r\n1. How are these details determined by the Transaction Token Service (i.e. where do they come from)?\r\n2. Should all the `azd` claims be visible to all workloads? or should they be restricted to a subset of workloads?\r\n3. Who is authoritative for specifying the claims of the `azd` object\r\n",
       "createdAt": "2023-12-18T15:20:21Z",
-      "updatedAt": "2024-01-12T17:52:57Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-01T22:32:29Z",
+      "closedAt": "2024-02-01T22:32:29Z",
       "comments": [
         {
           "author": "tulshi",
@@ -1004,6 +1058,13 @@
           "body": "Suggestion to rename `authz_details` to `request_details` and then add a processing rule to the effect of... \"The TTS SHOULD propagate the data from the `request_details` object into claims in the `azd` object as authorized by the TTS authorization policy for the requesting client\"",
           "createdAt": "2024-01-12T17:26:50Z",
           "updatedAt": "2024-01-12T17:26:50Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This has been fixed AFAIK. Please reopen the issue if it hasn't been fixed by George's PR.",
+          "createdAt": "2024-02-01T22:32:29Z",
+          "updatedAt": "2024-02-01T22:32:29Z"
         }
       ]
     },
@@ -1038,7 +1099,7 @@
       "id": "I_kwDOJt_WwM56AVNO",
       "title": "Use of `actor_token` and `actor_token_type`",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/60",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1049,8 +1110,8 @@
       ],
       "body": "Should we allow the use of `actor_token` and `actor_token_type` to be used as a means of client authentication for the Transaction Token Service? If not, should explicitly prohibit the use of these parameters in the profile of the Token Exchange spec.",
       "createdAt": "2023-12-18T15:22:56Z",
-      "updatedAt": "2024-01-24T13:39:39Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-01T22:31:14Z",
+      "closedAt": "2024-02-01T22:31:14Z",
       "comments": [
         {
           "author": "tulshi",
@@ -1087,7 +1148,7 @@
       "id": "I_kwDOJt_WwM56AWSf",
       "title": "How is the `purp` claim of the Txn-Token defined?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/61",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1098,8 +1159,8 @@
       ],
       "body": "In PR #57, the token exchange `scope` parameter is profiled to carry the purpose or intent of the transaction and its value is copied into the `purp` claim of the resulting Txn-Token. \r\n\r\nIs this how we want to handle the 'purp' claim?",
       "createdAt": "2023-12-18T15:25:19Z",
-      "updatedAt": "2024-01-24T13:35:20Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-01T22:30:57Z",
+      "closedAt": "2024-02-01T22:30:57Z",
       "comments": [
         {
           "author": "tulshi",
@@ -1143,7 +1204,7 @@
       "labels": [],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
       "createdAt": "2024-01-15T08:11:42Z",
-      "updatedAt": "2024-01-30T11:18:24Z",
+      "updatedAt": "2024-02-02T05:46:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -1159,6 +1220,20 @@
           "body": "The use cases you mention are pretty much what we had to implement.\r\n\r\n1. For incoming mails we have a mail delivery agent which wants to use the mail storage system service to store the mail in the user mailbox. In order to write to the mailbox of a user, the delivery agent needs a Txn-Token with the sub of the user. The delivery agent asks the TTS about a Txn-Token and presents its client credentials and the mail address of the recipient/user. The TTS allows issuing Txn-Tokens to the delivery agent. There is no long-living access token involved. The issued Txn-Token is short lived (1 minute in our deployments).\r\n\r\n3. Whenever a user cancels their contract, we have to keep the data for some time (number of days depending on type of data, legal restrictions, etc.) after the delete operations are performed. The delayed delete operation is done by batch processes. Now, instead of creating and storing long-living access tokens which could be leaked and abused elsewhere, we decided to retain the short-lived Txn-Tokens and allow only those batch processes to ask the TTS to issue new Txn-Tokens for already expired Txn-Tokens to perform the actual delete operation which requires a valid and not expired Txn-Token when calling the storage system services.\r\n\r\nSo my argument is against using (and potentially abusing) long-living access tokens, and instead for allowing expired Txn-Tokens to be presented to the TTS to re-issue Txn-Tokens for the purpose of finalizing a delayed operation.",
           "createdAt": "2024-01-30T11:17:56Z",
           "updatedAt": "2024-01-30T11:18:24Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I do not think we should allow the use of expired TraTs to authorize the issuance of new TraTs. This can be abused for token replay attacks, and negates the security we get through short-lived TraTs.",
+          "createdAt": "2024-02-01T22:30:26Z",
+          "updatedAt": "2024-02-01T22:30:26Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "@tulshi Good point. In order to get a new TraTs, the caller needs proper client authentication (e.g. SPIFFE, mTLS, or Basic Auth credentials). My point was to only allow specific authenticated clients the exchange of expired TraTs. It is true that if those clients get hacked themselves (and the client authentication can be done by an attacker) new TraTs can be created and abused.\r\n\r\nHowever, longer living TraTs have also the risk of being abused with replay attacks. I think the risk for replay attacks with longer living TraTs is even higher as an attacker would just need to get hold of the long-living TraTs and does not have the need to renew it.\r\n",
+          "createdAt": "2024-02-02T05:46:46Z",
+          "updatedAt": "2024-02-02T05:46:46Z"
         }
       ]
     },
@@ -1167,15 +1242,15 @@
       "id": "I_kwDOJt_WwM58EStr",
       "title": "audience REQUIRED for just one trust domain?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/63",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "This issue is somewhat related to the aud claim comment I made earlier via mail to the authors.\r\n\r\nThe spec states that audience parameter is REQUIRED in the Txn-Token request. It contains the trust domain. To my understanding, every trust domain has a single (logical) Txn-Service. A Txn-Service is usually configured to only issue Txn-Tokens to one and only one trust domain. Also the authenticating clients which the Txn-Service accepts in incoming requests are part of that trust domain. After all, they have been registered within that trust domain. It might be possible that the Txn-Service is used in multiple trust domains. In those scenarios I fully agree that the audience parameter is REQUIRED. My guess is, though, that the most deployed setup will incorporate a single trust domain.",
       "createdAt": "2024-01-15T08:30:44Z",
-      "updatedAt": "2024-01-30T10:06:58Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-02T19:00:53Z",
+      "closedAt": "2024-02-02T19:00:53Z",
       "comments": [
         {
           "author": "gffletch",
@@ -1190,6 +1265,20 @@
           "body": "> What is the benefit of making the aud claim optional?\r\n\r\nMostly brevity reasons. Also, if it is defined as REQUIRED, it will be enforced by 3rd party libraries which a company might want to integrate in their components/services. This essentially forces the company (albeit using Txn-Tokens within their trust domain only internally) to define and set the aud claim without added benefit.\r\n\r\nHaving aud REQUIRED also implies that the value needs to be validated somehow. I think this aspect should be mentioned in the spec, if it is really required. So every Token service must have the audience parameter validated as well as every service/worker receiving a Txn-Token must validate the aud claim against a configured accepted value (or list of values).\r\n",
           "createdAt": "2024-01-30T10:06:57Z",
           "updatedAt": "2024-01-30T10:06:57Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think `aud` is required to prevent a TraT from being reused in a domain its not supposed to be used in.",
+          "createdAt": "2024-02-01T19:27:23Z",
+          "updatedAt": "2024-02-01T19:27:45Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing as per discussion in meeting on 2/2/24: https://hackmd.io/@rpc-sec-wg/Hk0ggi5ca",
+          "createdAt": "2024-02-02T19:00:53Z",
+          "updatedAt": "2024-02-02T19:00:53Z"
         }
       ]
     },
@@ -1198,16 +1287,40 @@
       "id": "I_kwDOJt_WwM59nfI7",
       "title": "Trust domain/audience claim format URI or StringOrUri?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/66",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In the Terminology section, the Trust Domain value is being defined and referenced in the aud claim as universal resource identifier. It should be spelled Universal Resource Identifier and a reference to RFC3986 should be added.\r\n\r\nHowever, later in the document, the aud claim value is specified as defined in RFC7519. This RFC defines the aud claim as \"StringOrURI\". The different passages should be aligned.\r\n\r\nFurthermore, the examples for the aud claim values should be aligned accordingly. In section Txn-Token Request the POST request example to the token service uses:\r\n\r\n`&audience=http%3A%2F%2Ftrust-domain.example`\r\n\r\nIf an URI is used, I suggest to use 'https' instead of 'http'.\r\n\r\nLater the JWT body example of the Txn-Token just uses a string:\r\n\r\n`\"aud\": \"trust-domain.example\",`\r\n",
       "createdAt": "2024-01-30T10:38:12Z",
-      "updatedAt": "2024-01-30T10:38:12Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-02T19:19:10Z",
+      "closedAt": "2024-02-02T19:19:10Z",
       "comments": []
+    },
+    {
+      "number": 69,
+      "id": "I_kwDOJt_WwM5-FxH9",
+      "title": "Do we still need replacement transaction tokens.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/69",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to clarify the use case for replacement transaction token and whether we still have it. We included it in the past to preserve call chain information, but it is unclear if we still should address this in the transaction token.",
+      "createdAt": "2024-02-02T17:35:56Z",
+      "updatedAt": "2024-02-02T17:38:20Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conversation: https://hackmd.io/@rpc-sec-wg/Hk0ggi5ca",
+          "createdAt": "2024-02-02T17:38:18Z",
+          "updatedAt": "2024-02-02T17:38:18Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -3541,7 +3654,7 @@
       "labels": [],
       "body": "Resolve #66",
       "createdAt": "2024-01-30T10:48:05Z",
-      "updatedAt": "2024-01-30T10:48:06Z",
+      "updatedAt": "2024-02-02T15:33:12Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d3110bceb6efcd50383b3528888cc362117fe44d",
@@ -3553,7 +3666,158 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5utgpr",
+          "commit": {
+            "abbreviatedOid": "1150bfd"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-01T19:31:33Z",
+          "updatedAt": "2024-02-01T19:32:18Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "specify \"Section 2 of {{RFC7519}}\"",
+              "createdAt": "2024-02-01T19:31:34Z",
+              "updatedAt": "2024-02-01T19:32:18Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "Do we need to have \"https\" or any protocol in a StringOrUri? It should be OK to not have a protocol prefix.",
+              "createdAt": "2024-02-01T19:32:06Z",
+              "updatedAt": "2024-02-01T19:32:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uxLDJ",
+          "commit": {
+            "abbreviatedOid": "1150bfd"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-02T06:02:16Z",
+          "updatedAt": "2024-02-02T06:02:17Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "True, if StringOrUri type should be defined, then a leading https:// is not necessary. In this case I would align the other instances where this audience is used.\r\n\r\nAs you want to discuss it in the call today, I wait with the update of the PR until after the discussion.\r\n\r\n(P.S: As much as I would like to join the regular call, the time slot is quite difficult for me due to other conflicting obligations.)",
+              "createdAt": "2024-02-02T06:02:16Z",
+              "updatedAt": "2024-02-02T06:02:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5u1i3X",
+          "commit": {
+            "abbreviatedOid": "1150bfd"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-02T15:33:11Z",
+          "updatedAt": "2024-02-02T15:33:12Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "I'm not sure we want to require that \"Each Trust Domain has `exactly one` Txn-Service\". I'd prefer we remove this line entirely and be silent on the topic as there can be multiple deployment options.",
+              "createdAt": "2024-02-02T15:33:11Z",
+              "updatedAt": "2024-02-02T15:33:12Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "PR_kwDOJt_WwM5lwziU",
+      "title": "removed sender constrained text as discussed on 12/08",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/68",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See meeting notes here where we agreed to remove this: https://hackmd.io/v6Gx0rvsTp2VJwL_quWuGA",
+      "createdAt": "2024-02-01T22:41:13Z",
+      "updatedAt": "2024-02-02T16:49:42Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3110bceb6efcd50383b3528888cc362117fe44d",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "remove-sender-constraints",
+      "headRefOid": "79ea8b2d4a526df17c7ed7c16647ae2258fdea84",
+      "closedAt": "2024-02-02T16:49:41Z",
+      "mergedAt": "2024-02-02T16:49:41Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "b47a5d626cd2ca5f63e7d3c24fa1215f9de5fb40"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5u1hy8",
+          "commit": {
+            "abbreviatedOid": "79ea8b2"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-02T15:30:56Z",
+          "updatedAt": "2024-02-02T15:30:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "id": "PR_kwDOJt_WwM5l3g4L",
+      "title": "clarified that aud claim should have the same format as in the JWT spec",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/70",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-02-02T19:11:43Z",
+      "updatedAt": "2024-02-02T19:19:09Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "b47a5d626cd2ca5f63e7d3c24fa1215f9de5fb40",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "aud-claim-format",
+      "headRefOid": "d43d739055c1c7d580be8e3ac2dfd9b2a571be24",
+      "closedAt": "2024-02-02T19:19:09Z",
+      "mergedAt": "2024-02-02T19:19:09Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "15d18fbacd2682c53672ad487c4e0d4b497d6860"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5u323d",
+          "commit": {
+            "abbreviatedOid": "d43d739"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-02T19:15:33Z",
+          "updatedAt": "2024-02-02T19:15:33Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
