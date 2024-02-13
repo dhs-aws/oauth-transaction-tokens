@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-11T00:57:20.285966+00:00",
+  "timestamp": "2024-02-13T00:53:53.782464+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3831,7 +3831,7 @@
       "labels": [],
       "body": "I updated the text to require the `sub` claim remain unchanged when requesting a replacement transaction token. I also added a mechanism to allow for tracking the workloads that have requested replacement transaction tokens. This was necessary as the current text required the `rctx` to remain unchanged in the replacement transaction token and the `rctx` object contains the requesting workload identifier. I used a mechanisms similar to x-forwarded-for. This needs lots of review.",
       "createdAt": "2024-02-07T13:53:06Z",
-      "updatedAt": "2024-02-07T13:53:06Z",
+      "updatedAt": "2024-02-12T21:49:31Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "15d18fbacd2682c53672ad487c4e0d4b497d6860",
@@ -3843,7 +3843,34 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5v15xE",
+          "commit": {
+            "abbreviatedOid": "b93798d"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-12T21:41:43Z",
+          "updatedAt": "2024-02-12T21:49:31Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "Do we need to provide a reference for \"StringOrUri\", or has it occurred earlier in the doc?",
+              "createdAt": "2024-02-12T21:41:44Z",
+              "updatedAt": "2024-02-12T21:49:31Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "\"Be default\" -> \"By default\"\r\n2nd sentence also should clarify that the value becomes an array if more than one workload needs to be included, and the successive elements are later services that obtained replacements Txn-tokens. (Your text implies both these things, but it might be good to clarify it.)",
+              "createdAt": "2024-02-12T21:48:40Z",
+              "updatedAt": "2024-02-12T21:49:31Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
