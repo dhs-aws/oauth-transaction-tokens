@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-20T00:52:32.921481+00:00",
+  "timestamp": "2024-02-22T00:52:45.557719+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -874,7 +874,7 @@
       "labels": [],
       "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
       "createdAt": "2023-11-15T22:58:21Z",
-      "updatedAt": "2024-02-02T19:20:34Z",
+      "updatedAt": "2024-02-20T19:48:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -918,6 +918,13 @@
           "body": "There is this \"N_A\" which could be reused here?",
           "createdAt": "2024-02-02T05:51:22Z",
           "updatedAt": "2024-02-02T05:51:22Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm still wondering if we'd want to send in a subject_token all the time rather than have this spec override the Token Exchange spec. We need a 'sub' as part of the TraT so why not use the subject_type to provide it. The `subject_token` value  could be something simple like a String and then the subject_token_type could be urn:...:workload_id",
+          "createdAt": "2024-02-20T19:48:04Z",
+          "updatedAt": "2024-02-20T19:48:04Z"
         }
       ]
     },
@@ -3831,13 +3838,13 @@
       "labels": [],
       "body": "I updated the text to require the `sub` claim remain unchanged when requesting a replacement transaction token. I also added a mechanism to allow for tracking the workloads that have requested replacement transaction tokens. This was necessary as the current text required the `rctx` to remain unchanged in the replacement transaction token and the `rctx` object contains the requesting workload identifier. I used a mechanisms similar to x-forwarded-for. This needs lots of review.",
       "createdAt": "2024-02-07T13:53:06Z",
-      "updatedAt": "2024-02-12T21:49:31Z",
+      "updatedAt": "2024-02-20T21:16:08Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "15d18fbacd2682c53672ad487c4e0d4b497d6860",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "txn-token-issues",
-      "headRefOid": "b93798dd831e591b80cb9356f3499f43fb188234",
+      "headRefOid": "ec697e9c56a2e8095784006414697405c4abf1e6",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -3869,6 +3876,39 @@
               "updatedAt": "2024-02-12T21:49:31Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5wvcHo",
+          "commit": {
+            "abbreviatedOid": "b93798d"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-20T20:03:40Z",
+          "updatedAt": "2024-02-20T20:03:40Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "When we approve PR #67 StringOrURI will be defined at the first use when describing the Trust Domain so I don't think we need to define it here.",
+              "createdAt": "2024-02-20T20:03:40Z",
+              "updatedAt": "2024-02-20T20:03:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5wv4t_",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-20T21:16:08Z",
+          "updatedAt": "2024-02-20T21:16:08Z",
+          "comments": []
         }
       ]
     }
