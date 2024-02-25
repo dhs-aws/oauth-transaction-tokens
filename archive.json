@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-22T00:52:45.557719+00:00",
+  "timestamp": "2024-02-25T00:56:38.124097+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3654,25 +3654,33 @@
       "id": "PR_kwDOJt_WwM5lbwpr",
       "title": "Clarify and align audience claim value format",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Resolve #66",
       "createdAt": "2024-01-30T10:48:05Z",
-      "updatedAt": "2024-02-02T15:33:12Z",
+      "updatedAt": "2024-02-22T13:10:38Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d3110bceb6efcd50383b3528888cc362117fe44d",
       "headRepository": "obfuscoder/oauth-transaction-tokens",
       "headRefName": "audformat",
       "headRefOid": "1150bfd047e72e55a1be4b7c33e0a260d0685dfc",
-      "closedAt": null,
+      "closedAt": "2024-02-22T13:10:37Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "As this was addressed in another PR in parallel which was merged already, I am closing this PR.",
+          "createdAt": "2024-02-22T13:10:37Z",
+          "updatedAt": "2024-02-22T13:10:37Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM5utgpr",
@@ -3831,24 +3839,26 @@
       "id": "PR_kwDOJt_WwM5mQ_Jm",
       "title": "Addressing issue #44 - updating rules for the `sub` claim when requesting replacement transaction tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/71",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "I updated the text to require the `sub` claim remain unchanged when requesting a replacement transaction token. I also added a mechanism to allow for tracking the workloads that have requested replacement transaction tokens. This was necessary as the current text required the `rctx` to remain unchanged in the replacement transaction token and the `rctx` object contains the requesting workload identifier. I used a mechanisms similar to x-forwarded-for. This needs lots of review.",
       "createdAt": "2024-02-07T13:53:06Z",
-      "updatedAt": "2024-02-20T21:16:08Z",
+      "updatedAt": "2024-02-24T21:20:57Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "15d18fbacd2682c53672ad487c4e0d4b497d6860",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "txn-token-issues",
-      "headRefOid": "ec697e9c56a2e8095784006414697405c4abf1e6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "d07dde61e76e0380ff3d00b2d03ed0eb95559e86",
+      "closedAt": "2024-02-24T21:20:57Z",
+      "mergedAt": "2024-02-24T21:20:57Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "5f8197ca32747537775b0353b1aeb30f24aa68f7"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3908,6 +3918,149 @@
           "body": "",
           "createdAt": "2024-02-20T21:16:08Z",
           "updatedAt": "2024-02-20T21:16:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5w_usX",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-22T12:38:42Z",
+          "updatedAt": "2024-02-22T13:08:47Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "the phrase \"as well as\" is now used twice in this sentence. Maybe you can reorder the sentence or make it two?",
+              "createdAt": "2024-02-22T12:38:43Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "Typo in:  ... a \"pathing\" mechanisms ...\r\n\r\nShould be mechanism",
+              "createdAt": "2024-02-22T12:41:55Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 22,
+              "body": "This definition contradicts the definition in the added section below. You could also mention here that it can be an array if multiple computational entities where involved in requesting the Txn-Token.\r\n",
+              "createdAt": "2024-02-22T12:45:52Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "Is it practical from an implementer's perspective to deal with multiple types in one attribute?\r\n\r\nPossible alternatives:\r\n\r\n1) Define req_wl always as an array of StringOrURIs, even if there is only one element.\r\n2) Have a separate attribute (maybe \"orig_wls\") which is an array with StringOrURIs of the workloads originally requesting the Txn-Token in order of replacement. This attribute can be omitted if there was no replacement Txn-Token issued.\r\n",
+              "createdAt": "2024-02-22T12:51:04Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 45,
+              "body": "I am assuming this change here addresses a discussion where there is no subject token available which the Txn-Token can extract the subject from and instead the subject identifier is being provided in plain? Should we maybe define a specific subject_token_type for this case? \"N_A\" might not fit here.\r\n\r\nAlso ... (I'm not a native speaker in English, but ...)\r\n\r\n\"or simple string value\" -> \"or a simple string value\"\r\n\r\nand shouldn't there be a comma before the \"or\"?",
+              "createdAt": "2024-02-22T12:52:27Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 55,
+              "body": "Maybe also update the part \"then it MUST be present unchanged in\"? Should be \"then it MUST be present and unchanged in\"",
+              "createdAt": "2024-02-22T13:07:13Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJfiU",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T14:58:29Z",
+          "updatedAt": "2024-02-23T14:58:30Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "So, there are many claims in JWT that use this method of being a string if only one value and an array if more than one. I was just following that precedent. This is true of the `aud` claim among others. https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.3",
+              "createdAt": "2024-02-23T14:58:30Z",
+              "updatedAt": "2024-02-23T14:58:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJhq0",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T15:02:10Z",
+          "updatedAt": "2024-02-23T15:02:10Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "Yes, this is addressing the case where a entity needs to obtain a transaction token and there is not \"inbound\" token. For example, a mail delivery service that receives a new email from the internet. That service could request a transaction token where the `subject_token` is the inbound email address. \r\n\r\nGiven that the `sub` claim of the Txn-Token is REQUIRED, I think we want `subject_token` to also be required.",
+              "createdAt": "2024-02-23T15:02:10Z",
+              "updatedAt": "2024-02-23T15:02:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJinQ",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T15:03:58Z",
+          "updatedAt": "2024-02-23T15:03:58Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "As for the comma rule... my understanding of current rules is that it's optional before the last option :) ",
+              "createdAt": "2024-02-23T15:03:58Z",
+              "updatedAt": "2024-02-23T15:03:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJ5dF",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T15:48:24Z",
+          "updatedAt": "2024-02-23T15:48:24Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "True, the aud claim can have multiple or single values. Although I still think that implementations around overloaded value types tend to be a bit more complex, those implementations can be reused when dealing with the req_wl overload as well. So I consider this as resolved as well.",
+              "createdAt": "2024-02-23T15:48:24Z",
+              "updatedAt": "2024-02-23T15:48:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJ6X4",
+          "commit": {
+            "abbreviatedOid": "d07dde6"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-23T15:50:19Z",
+          "updatedAt": "2024-02-23T15:50:19Z",
           "comments": []
         }
       ]
